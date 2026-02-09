@@ -3,1113 +3,1966 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Grade 12 English Master</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="theme-color" content="#0a1628">
+    <title>Grammar Master Grade 12</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqy6ontyx/image/upload/v1770629393/favicon-32x32_ioyy6p.png">
     <style>
+        /* ============================================
+           CSS RESET & VARIABLES
+        ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #f8fafc;
-            --accent: #dbeafe;
+            --primary-dark: #0a1628;
+            --secondary-dark: #132238;
+            --accent-blue: #1e90ff;
+            --accent-light: #4db8ff;
+            --success: #00c853;
+            --error: #ff5252;
+            --warning: #ffc107;
+            --text-primary: #ffffff;
+            --text-secondary: #a0b3c6;
+            --card-bg: #1a2d47;
+            --card-hover: #243a56;
+            --border-color: #2d4a6f;
+            --gradient-1: linear-gradient(135deg, #1e3a5f 0%, #0a1628 100%);
+            --gradient-2: linear-gradient(135deg, #1e90ff 0%, #00c9ff 100%);
+            --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f1f5f9;
-            padding-bottom: 80px;
+
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
-        
+
+        /* ============================================
+           NETFLIX-STYLE SPLASH SCREEN ANIMATIONS
+        ============================================ */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            animation: splashFadeOut 0.8s ease-in-out 3s forwards;
+        }
+
+        @keyframes splashFadeOut {
+            0% { opacity: 1; visibility: visible; }
+            100% { opacity: 0; visibility: hidden; pointer-events: none; }
+        }
+
+        .splash-logo {
+            width: 120px;
+            height: 120px;
+            animation: netflixZoom 2s ease-out forwards, logoGlow 2s ease-in-out 0.5s infinite alternate;
+            filter: drop-shadow(0 0 0 transparent);
+        }
+
+        @keyframes netflixZoom {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+                filter: blur(10px);
+            }
+            30% {
+                opacity: 1;
+                filter: blur(0);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+            70% {
+                transform: scale(0.95);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes logoGlow {
+            0% {
+                filter: drop-shadow(0 0 10px rgba(30, 144, 255, 0.3))
+                        drop-shadow(0 0 20px rgba(30, 144, 255, 0.2))
+                        drop-shadow(0 0 30px rgba(30, 144, 255, 0.1));
+            }
+            100% {
+                filter: drop-shadow(0 0 20px rgba(30, 144, 255, 0.6))
+                        drop-shadow(0 0 40px rgba(30, 144, 255, 0.4))
+                        drop-shadow(0 0 60px rgba(30, 144, 255, 0.2));
+            }
+        }
+
+        .splash-text {
+            margin-top: 30px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            opacity: 0;
+            animation: textFadeSlide 1s ease-out 1s forwards;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        @keyframes textFadeSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .splash-loader {
+            margin-top: 40px;
+            width: 50px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            opacity: 0;
+            animation: textFadeSlide 0.5s ease-out 1.5s forwards;
+        }
+
+        .splash-loader::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-2);
+            animation: loaderProgress 1.5s ease-in-out 1.5s forwards;
+            transform: translateX(-100%);
+        }
+
+        @keyframes loaderProgress {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(0); }
+        }
+
+        /* ============================================
+           MAIN APP CONTAINER
+        ============================================ */
+        #app {
+            min-height: 100vh;
+            background: var(--gradient-1);
+            opacity: 0;
+            animation: appFadeIn 0.8s ease-out 3s forwards;
+        }
+
+        @keyframes appFadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+            padding-bottom: 100px;
+            min-height: 100vh;
+            animation: screenSlideIn 0.4s ease-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes screenSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ============================================
+           HEADER STYLES
+        ============================================ */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .header-icon:hover {
+            background: var(--card-hover);
+            transform: scale(1.05);
+        }
+
+        .back-btn {
+            background: var(--card-bg);
+            border: none;
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            background: var(--card-hover);
+        }
+
+        /* ============================================
+           DASHBOARD STATS CARDS
+        ============================================ */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-card.highlight {
+            grid-column: span 2;
+            background: var(--gradient-2);
+            border: none;
+        }
+
+        .stat-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card.highlight .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Daily Progress Bar */
+        .progress-container {
+            margin-top: 15px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #ffffff;
+            border-radius: 4px;
+            transition: width 0.5s ease-out;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+
+        /* ============================================
+           SECTION TITLES
+        ============================================ */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--gradient-2);
+            border-radius: 2px;
+        }
+
+        /* ============================================
+           UNITS GRID
+        ============================================ */
+        .units-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .unit-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 18px 15px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .unit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-2);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .unit-card:hover {
+            transform: translateY(-3px);
+            background: var(--card-hover);
+            box-shadow: var(--shadow-md);
+        }
+
+        .unit-card:hover::before {
+            opacity: 1;
+        }
+
+        .unit-card:active {
+            transform: scale(0.98);
+        }
+
+        .unit-number {
+            font-size: 11px;
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .unit-name {
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .unit-progress {
+            margin-top: 10px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .unit-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            opacity: 0;
+            transform: scale(0);
+            transition: var(--transition);
+        }
+
+        .unit-card.completed .unit-badge {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ============================================
+           LEARN MODE - STUDY CARDS
+        ============================================ */
+        .study-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .study-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .study-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .study-title {
+            flex: 1;
+        }
+
+        .study-title h2 {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .study-title p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .rule-box {
+            background: rgba(30, 144, 255, 0.1);
+            border-left: 4px solid var(--accent-blue);
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 20px;
+        }
+
+        .rule-box h3 {
+            font-size: 14px;
+            color: var(--accent-light);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rule-box p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .examples-section {
+            margin-bottom: 20px;
+        }
+
+        .examples-section h4 {
+            font-size: 13px;
+            color: var(--accent-light);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .example-item {
+            background: var(--secondary-dark);
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .example-item strong {
+            color: var(--success);
+        }
+
+        .example-item .wrong {
+            color: var(--error);
+            text-decoration: line-through;
+        }
+
+        .example-label {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+            font-weight: 600;
+        }
+
+        .example-label.correct {
+            background: rgba(0, 200, 83, 0.2);
+            color: var(--success);
+        }
+
+        .example-label.incorrect {
+            background: rgba(255, 82, 82, 0.2);
+            color: var(--error);
+        }
+
+        .start-practice-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient-2);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .start-practice-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(30, 144, 255, 0.3);
+        }
+
+        .start-practice-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* ============================================
+           PRACTICE MODE - QUIZ
+        ============================================ */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .quiz-progress {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .quiz-score {
+            background: var(--card-bg);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .question-unit-tag {
+            display: inline-block;
+            font-size: 11px;
+            padding: 4px 12px;
+            background: rgba(30, 144, 255, 0.2);
+            color: var(--accent-light);
+            border-radius: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 16px 20px;
+            background: var(--secondary-dark);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 15px;
+            text-align: left;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: var(--card-hover);
+            border-color: var(--accent-blue);
+        }
+
+        .option-btn:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .option-letter {
+            width: 28px;
+            height: 28px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        .option-btn.correct {
+            background: rgba(0, 200, 83, 0.15);
+            border-color: var(--success);
+        }
+
+        .option-btn.correct .option-letter {
+            background: var(--success);
+        }
+
+        .option-btn.wrong {
+            background: rgba(255, 82, 82, 0.15);
+            border-color: var(--error);
+        }
+
+        .option-btn.wrong .option-letter {
+            background: var(--error);
+        }
+
+        .show-answer-btn {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: var(--transition);
+        }
+
+        .show-answer-btn:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        /* Explanation Box */
+        .explanation-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(30, 144, 255, 0.1);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-blue);
+            display: none;
+            animation: fadeSlideUp 0.3s ease-out;
+        }
+
+        .explanation-box.show {
+            display: block;
+        }
+
+        @keyframes fadeSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .explanation-box h4 {
+            font-size: 14px;
+            color: var(--accent-light);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .explanation-box p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .next-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--gradient-2);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: var(--transition);
+            display: none;
+        }
+
+        .next-btn.show {
+            display: block;
+            animation: fadeSlideUp 0.3s ease-out;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(30, 144, 255, 0.3);
+        }
+
+        /* ============================================
+           BOTTOM NAVIGATION
+        ============================================ */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: white;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            background: var(--secondary-dark);
+            border-top: 1px solid var(--border-color);
+            padding: 10px 20px;
+            padding-bottom: max(10px, env(safe-area-inset-bottom));
+            display: flex;
+            justify-content: space-around;
             z-index: 100;
         }
-        
+
         .nav-item {
-            flex: 1;
-            text-align: center;
-            padding: 12px 0;
-            color: #64748b;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-item.active {
-            color: var(--primary);
-            font-weight: 500;
-        }
-        
-        .nav-item i {
-            font-size: 24px;
-            display: block;
-            margin-bottom: 4px;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 20px;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: transform 0.2s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-2px);
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-            border-radius: 8px;
-            padding: 12px 20px;
-            font-weight: 500;
-            transition: background-color 0.3s;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-        }
-        
-        .btn-secondary {
-            background-color: #e2e8f0;
-            color: #334155;
-            border-radius: 8px;
-            padding: 12px 20px;
-            font-weight: 500;
-        }
-        
-        .option-btn {
-            text-align: left;
-            margin-bottom: 10px;
-            padding: 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-        
-        .option-btn.selected {
-            border-color: var(--primary);
-            background-color: var(--accent);
-        }
-        
-        .option-btn.correct {
-            border-color: #10b981;
-            background-color: #d1fae5;
-        }
-        
-        .option-btn.incorrect {
-            border-color: #ef4444;
-            background-color: #fee2e2;
-        }
-        
-        .unit-card {
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
         }
-        
-        .unit-card:hover {
-            background-color: var(--accent);
+
+        .nav-item.active {
+            color: var(--accent-blue);
+            background: rgba(30, 144, 255, 0.1);
         }
-        
-        .progress-ring circle {
-            transition: stroke-dashoffset 0.35s;
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
+
+        .nav-item:hover {
+            color: var(--accent-blue);
         }
-        
-        .fade-in {
-            animation: fadeIn 0.3s ease-in;
+
+        .nav-icon {
+            font-size: 22px;
         }
-        
+
+        .nav-label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* ============================================
+           MILESTONE POPUP
+        ============================================ */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .popup-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
-        
-        .slide-in {
-            animation: slideIn 0.3s ease-out;
+
+        .popup-content {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 320px;
+            width: 100%;
+            animation: popupBounce 0.5s ease-out;
         }
-        
-        @keyframes slideIn {
-            from { transform: translateX(20px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+
+        @keyframes popupBounce {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .popup-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: celebrateIcon 0.6s ease-out;
+        }
+
+        @keyframes celebrateIcon {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-10deg) scale(1.2); }
+            75% { transform: rotate(10deg) scale(1.2); }
+        }
+
+        .popup-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .popup-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .popup-btn {
+            padding: 14px 40px;
+            background: var(--gradient-2);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .popup-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+
+        /* ============================================
+           SCROLLBAR STYLING
+        ============================================ */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-blue);
+        }
+
+        /* ============================================
+           RESPONSIVE ADJUSTMENTS
+        ============================================ */
+        @media (min-width: 768px) {
+            .screen {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .stat-card.highlight {
+                grid-column: span 3;
+            }
+
+            .units-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .units-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* ============================================
+           UTILITY CLASSES
+        ============================================ */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
         }
     </style>
 </head>
-<body class="text-gray-800">
-    <!-- Header -->
-    <div class="bg-white shadow-sm py-4 px-4 sticky top-0 z-50">
-        <div class="flex items-center justify-between">
-            <h1 class="text-xl font-bold text-blue-600">Grade 12 English Master</h1>
-            <div class="flex items-center">
-                <span id="dailyProgress" class="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-full mr-2">0/20</span>
-                <span class="material-icons text-blue-600">school</span>
-            </div>
-        </div>
+<body>
+    <!-- SPLASH SCREEN -->
+    <div id="splash-screen">
+        <img src="https://res.cloudinary.com/dqy6ontyx/image/upload/v1770629332/dg_m9gsuo.png" 
+             alt="Logo" 
+             class="splash-logo">
+        <p class="splash-text">Website made by diplap</p>
+        <div class="splash-loader"></div>
     </div>
 
-    <!-- Main Content -->
-    <div class="container mx-auto px-4 py-4">
-        <!-- Grammar Tab -->
-        <div id="grammarTab" class="tab-content active">
-            <h2 class="text-2xl font-bold mb-4">Grammar Guide</h2>
-            <div class="grid grid-cols-1 gap-4">
+    <!-- MAIN APP -->
+    <div id="app">
+        <!-- DASHBOARD SCREEN -->
+        <div id="dashboard-screen" class="screen active">
+            <div class="header">
+                <h1>Grammar Master</h1>
+                <div class="header-icon" onclick="resetProgress()">🔄</div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card highlight">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-value"><span id="daily-progress">0</span>/20</div>
+                    <div class="stat-label">Daily Goal</div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="daily-progress-bar" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-text" id="daily-message">Complete 20 questions today!</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-value" id="total-score">0</div>
+                    <div class="stat-label">Total Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-value" id="questions-answered">0</div>
+                    <div class="stat-label">Answered</div>
+                </div>
+            </div>
+
+            <!-- Units Section -->
+            <h3 class="section-title">Syllabus Units</h3>
+            <div class="units-grid" id="units-grid">
                 <!-- Units will be populated by JS -->
             </div>
         </div>
 
-        <!-- Writing Tab -->
-        <div id="writingTab" class="tab-content">
-            <h2 class="text-2xl font-bold mb-4">Writing Guide</h2>
-            <div class="grid grid-cols-1 gap-4">
-                <!-- Writing formats will be populated by JS -->
+        <!-- LEARN SCREEN -->
+        <div id="learn-screen" class="screen">
+            <div class="header">
+                <button class="back-btn" onclick="showScreen('dashboard')">
+                    ← Back
+                </button>
+            </div>
+            <div id="study-content">
+                <!-- Study card content will be populated by JS -->
             </div>
         </div>
 
-        <!-- Practice Tab -->
-        <div id="practiceTab" class="tab-content">
-            <h2 class="text-2xl font-bold mb-4">Practice Questions</h2>
-            
-            <!-- Daily Goal Badge -->
-            <div id="dailyGoalBadge" class="hidden mb-4 p-3 bg-green-100 text-green-800 rounded-lg flex items-center">
-                <span class="material-icons mr-2">celebration</span>
-                <span>Daily Goal Met! Great job!</span>
+        <!-- PRACTICE SCREEN -->
+        <div id="practice-screen" class="screen">
+            <div class="header">
+                <button class="back-btn" onclick="showScreen('dashboard')">
+                    ← Exit Quiz
+                </button>
             </div>
-            
-            <!-- Question Card -->
-            <div id="questionCard" class="card bg-white p-6 mb-4 fade-in">
-                <div class="flex justify-between items-start mb-4">
-                    <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Unit <span id="currentUnit">1</span></span>
-                    <span class="text-gray-500 text-sm">Question <span id="currentQuestion">1</span>/<span id="totalQuestions">0</span></span>
-                </div>
-                
-                <h3 id="questionText" class="text-lg font-medium mb-4"></h3>
-                
-                <div id="optionsContainer" class="mb-6">
-                    <!-- Options will be populated by JS -->
-                </div>
-                
-                <div id="explanationSection" class="hidden mb-4 p-4 bg-blue-50 rounded-lg">
-                    <p id="explanationText" class="text-gray-700"></p>
-                </div>
-                
-                <div class="flex flex-col sm:flex-row gap-2">
-                    <button id="showAnswerBtn" class="btn-secondary flex-1">Show Answer & Explanation</button>
-                    <button id="nextQuestionBtn" class="btn-primary flex-1 hidden">Next Question</button>
+            <div class="quiz-header">
+                <span class="quiz-progress">Question <span id="current-q-num">1</span>/<span id="total-q-num">25</span></span>
+                <div class="quiz-score">
+                    ⭐ <span id="session-score">0</span>
                 </div>
             </div>
-            
-            <!-- Progress Section -->
-            <div class="card bg-white p-6">
-                <h3 class="font-medium mb-3">Your Progress</h3>
-                <div class="flex items-center">
-                    <div class="relative w-16 h-16 mr-4">
-                        <svg class="w-full h-full" viewBox="0 0 36 36">
-                            <path
-                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                                fill="none"
-                                stroke="#e2e8f0"
-                                stroke-width="3"
-                            ></path>
-                            <path
-                                id="progressCircle"
-                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                                fill="none"
-                                stroke="#2563eb"
-                                stroke-width="3"
-                                stroke-dasharray="0, 100"
-                            ></path>
-                        </svg>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <span id="progressPercent" class="text-sm font-bold">0%</span>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-600">Questions Solved</p>
-                        <p class="text-xl font-bold"><span id="solvedCount">0</span>/<span id="totalCount">0</span></p>
-                    </div>
-                </div>
+            <div id="quiz-content">
+                <!-- Question content will be populated by JS -->
             </div>
         </div>
 
-        <!-- Stats Tab -->
-        <div id="statsTab" class="tab-content">
-            <h2 class="text-2xl font-bold mb-4">Statistics</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div class="card bg-white p-5">
-                    <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-blue-100 mr-4">
-                            <span class="material-icons text-blue-600">check_circle</span>
-                        </div>
-                        <div>
-                            <p class="text-gray-500 text-sm">Total Score</p>
-                            <p class="text-2xl font-bold" id="totalScore">0</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card bg-white p-5">
-                    <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-red-100 mr-4">
-                            <span class="material-icons text-red-600">error</span>
-                        </div>
-                        <div>
-                            <p class="text-gray-500 text-sm">Incorrect Answers</p>
-                            <p class="text-2xl font-bold" id="incorrectCount">0</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card bg-white p-5 mb-4">
-                <h3 class="font-medium mb-3">Daily Progress</h3>
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-sm">Today's Questions</span>
-                    <span class="text-sm font-medium"><span id="todaySolved">0</span>/20</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                    <div id="dailyProgressbar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
-                </div>
-            </div>
-            
-            <div class="card bg-white p-5">
-                <h3 class="font-medium mb-3">Performance by Unit</h3>
-                <div id="unitStatsContainer">
-                    <!-- Unit stats will be populated by JS -->
-                </div>
-            </div>
-        </div>
+        <!-- BOTTOM NAVIGATION -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-screen="dashboard" onclick="showScreen('dashboard')">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" data-screen="practice" onclick="startRandomPractice()">
+                <span class="nav-icon">✏️</span>
+                <span class="nav-label">Practice</span>
+            </button>
+            <button class="nav-item" onclick="showStats()">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Stats</span>
+            </button>
+        </nav>
     </div>
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav flex border-t">
-        <div class="nav-item active" data-tab="grammarTab">
-            <i class="material-icons">menu_book</i>
-            <span class="text-xs">Grammar</span>
-        </div>
-        <div class="nav-item" data-tab="writingTab">
-            <i class="material-icons">edit</i>
-            <span class="text-xs">Writing</span>
-        </div>
-        <div class="nav-item" data-tab="practiceTab">
-            <i class="material-icons">quiz</i>
-            <span class="text-xs">Practice</span>
-        </div>
-        <div class="nav-item" data-tab="statsTab">
-            <i class="material-icons">bar_chart</i>
-            <span class="text-xs">Stats</span>
+    <!-- MILESTONE POPUP -->
+    <div class="popup-overlay" id="milestone-popup">
+        <div class="popup-content">
+            <div class="popup-icon">🏆</div>
+            <h2 class="popup-title">Daily Goal Complete!</h2>
+            <p class="popup-text">Congratulations! You've answered 20 questions today. Keep up the great work!</p>
+            <button class="popup-btn" onclick="closePopup()">Continue Learning</button>
         </div>
     </div>
 
     <script>
-        // Data structures
+        // ============================================
+        // UNIT DATA
+        // ============================================
         const units = [
-            { id: 1, title: "Q-Tags", category: "Grammar" },
-            { id: 2, title: "Modals", category: "Grammar" },
-            { id: 3, title: "Determiners", category: "Grammar" },
-            { id: 4, title: "Subject-Verb Agreement", category: "Grammar" },
-            { id: 5, title: "Connectives", category: "Grammar" },
-            { id: 6, title: "Reported Speech", category: "Grammar" },
-            { id: 7, title: "Conditionals", category: "Grammar" },
-            { id: 8, title: "Passive Voice", category: "Grammar" },
-            { id: 9, title: "Prepositions", category: "Grammar" },
-            { id: 10, title: "Adjective Order", category: "Grammar" },
-            { id: 11, title: "Used to / Be used to", category: "Grammar" },
-            { id: 12, title: "Email Writing", category: "Writing" },
-            { id: 13, title: "Speech Writing", category: "Writing" },
-            { id: 14, title: "News Report", category: "Writing" },
-            { id: 15, title: "Curriculum Vitae", category: "Writing" },
-            { id: 16, title: "Letter to Editor", category: "Writing" },
-            { id: 17, title: "Story Writing", category: "Writing" },
-            { id: 18, title: "Essay Writing", category: "Writing" },
-            { id: 19, title: "Article Writing", category: "Writing" },
-            { id: 20, title: "Dialogue Writing", category: "Writing" }
+            { id: 1, name: "Question Tags", icon: "❓" },
+            { id: 2, name: "Modals", icon: "💪" },
+            { id: 3, name: "Determiners", icon: "🎯" },
+            { id: 4, name: "Subject-Verb Agreement", icon: "🤝" },
+            { id: 5, name: "Connectives", icon: "🔗" },
+            { id: 6, name: "Direct & Indirect Questions", icon: "❔" },
+            { id: 7, name: "Adverbs", icon: "⚡" },
+            { id: 8, name: "Adjectives", icon: "✨" },
+            { id: 9, name: "Reported Speech", icon: "💬" },
+            { id: 10, name: "Conditionals", icon: "🔀" },
+            { id: 11, name: "Passive Voice", icon: "🔄" },
+            { id: 12, name: "Prepositions", icon: "📍" },
+            { id: 13, name: "Relative Clauses", icon: "🔗" },
+            { id: 14, name: "Past Tenses", icon: "⏮️" },
+            { id: 15, name: "Used to / Would", icon: "📜" },
+            { id: 16, name: "Adjective Order", icon: "📋" },
+            { id: 17, name: "Articles", icon: "📰" },
+            { id: 18, name: "Tense Consistency", icon: "⏰" },
+            { id: 19, name: "Infinitives & Gerunds", icon: "🎭" },
+            { id: 20, name: "Sentence Transformation", icon: "🔧" }
         ];
 
-        const grammarContent = {
+        // ============================================
+        // STUDY CONTENT FOR EACH UNIT
+        // ============================================
+        const studyContent = {
             1: {
-                title: "Q-Tags",
-                rules: [
-                    "Auxiliary verb in Q-tag matches the main verb in the statement",
-                    "Subject pronoun replaces the noun in Q-tag",
-                    "Positive statement → Negative Q-tag and vice versa"
-                ],
+                title: "Question Tags",
+                rule: "Question tags are short questions added at the end of statements to confirm information. Use opposite polarity: positive statement → negative tag, negative statement → positive tag.",
                 examples: [
-                    "She is coming, isn't she?",
-                    "They don't like coffee, do they?",
-                    "He has finished, hasn't he?"
+                    { type: "correct", text: "She is coming, <strong>isn't she</strong>?" },
+                    { type: "correct", text: "They haven't finished, <strong>have they</strong>?" },
+                    { type: "correct", text: "Let's go, <strong>shall we</strong>?" },
+                    { type: "incorrect", text: "He is smart, <span class='wrong'>is he</span>? → isn't he?" }
                 ]
             },
             2: {
                 title: "Modals",
-                rules: [
-                    "Express ability, possibility, permission, obligation",
-                    "Followed by base form of verb",
-                    "Can/Could for ability, May/Might for possibility"
-                ],
+                rule: "Modal verbs (can, could, may, might, must, shall, should, will, would) express ability, possibility, permission, or obligation. They don't take 's' in third person and are followed by base verb.",
                 examples: [
-                    "She can swim very well.",
-                    "You must finish your homework.",
-                    "It might rain tomorrow."
+                    { type: "correct", text: "She <strong>can</strong> speak three languages." },
+                    { type: "correct", text: "You <strong>must</strong> submit the assignment by Friday." },
+                    { type: "correct", text: "He <strong>might</strong> come to the party." },
+                    { type: "incorrect", text: "She <span class='wrong'>cans</span> swim. → can swim" }
                 ]
             },
             3: {
                 title: "Determiners",
-                rules: [
-                    "Articles: a, an, the",
-                    "Demonstratives: this, that, these, those",
-                    "Possessives: my, your, his, her, its, our, their"
-                ],
+                rule: "Determiners (a, an, the, this, that, some, any, few, little, many, much) come before nouns to specify or quantify them. Use 'few/many' with countable nouns, 'little/much' with uncountable.",
                 examples: [
-                    "I saw a dog in the park.",
-                    "These books are mine.",
-                    "Whose pen is this?"
+                    { type: "correct", text: "There are <strong>few</strong> students in the class." },
+                    { type: "correct", text: "I have <strong>little</strong> time left." },
+                    { type: "correct", text: "<strong>Each</strong> student must bring their book." },
+                    { type: "incorrect", text: "I have <span class='wrong'>less</span> friends. → fewer friends" }
                 ]
             },
             4: {
                 title: "Subject-Verb Agreement",
-                rules: [
-                    "Singular subject → singular verb",
-                    "Plural subject → plural verb",
-                    "Collective nouns take singular verb"
-                ],
+                rule: "Singular subjects take singular verbs; plural subjects take plural verbs. Be careful with collective nouns, indefinite pronouns, and compound subjects.",
                 examples: [
-                    "The boy runs fast.",
-                    "The boys run fast.",
-                    "The team is winning."
+                    { type: "correct", text: "The team <strong>is</strong> playing well." },
+                    { type: "correct", text: "Neither the boys nor the girl <strong>was</strong> present." },
+                    { type: "correct", text: "Everyone <strong>has</strong> finished the test." },
+                    { type: "incorrect", text: "The news <span class='wrong'>are</span> shocking. → is shocking" }
                 ]
             },
             5: {
                 title: "Connectives",
-                rules: [
-                    "Coordinating: and, but, or, so, yet",
-                    "Subordinating: because, although, since, while",
-                    "Correlative: either...or, not only...but also"
-                ],
+                rule: "Connectives (and, but, because, although, however, therefore, moreover) link ideas within and between sentences. Choose the right connective based on the relationship between ideas.",
                 examples: [
-                    "I like tea but she prefers coffee.",
-                    "Although it was raining, we went out.",
-                    "Not only did he win but he also broke the record."
+                    { type: "correct", text: "I was tired, <strong>but</strong> I finished the work." },
+                    { type: "correct", text: "She studied hard; <strong>therefore</strong>, she passed." },
+                    { type: "correct", text: "<strong>Although</strong> it rained, we went out." },
+                    { type: "incorrect", text: "He is rich <span class='wrong'>and</span> unhappy. → but/yet" }
                 ]
             },
             6: {
-                title: "Reported Speech",
-                rules: [
-                    "Backshift tenses when reporting past statements",
-                    "Change pronouns and time expressions",
-                    "Use 'that' for statements, 'if/whether' for yes/no questions"
-                ],
+                title: "Direct & Indirect Questions",
+                rule: "Direct questions use question word order with auxiliary verbs. Indirect questions use statement word order and are more polite.",
                 examples: [
-                    "He said he was tired.",
-                    "She asked if I had finished.",
-                    "They told us they would come."
+                    { type: "correct", text: "Direct: <strong>Where does</strong> she live?" },
+                    { type: "correct", text: "Indirect: Could you tell me <strong>where she lives</strong>?" },
+                    { type: "correct", text: "Indirect: I wonder <strong>if he will come</strong>." },
+                    { type: "incorrect", text: "Could you tell me <span class='wrong'>where does she live</span>?" }
                 ]
             },
             7: {
-                title: "Conditionals",
-                rules: [
-                    "Type 0: General truths (If + present, present)",
-                    "Type 1: Real possibilities (If + present, will)",
-                    "Type 2: Unreal/hypothetical (If + past, would)"
-                ],
+                title: "Adverbs",
+                rule: "Adverbs modify verbs, adjectives, or other adverbs. They describe how, when, where, or to what extent. Most are formed by adding -ly to adjectives.",
                 examples: [
-                    "If you heat ice, it melts.",
-                    "If it rains, I'll stay home.",
-                    "If I were rich, I would travel the world."
+                    { type: "correct", text: "She sings <strong>beautifully</strong>." },
+                    { type: "correct", text: "He runs <strong>very</strong> fast." },
+                    { type: "correct", text: "They arrived <strong>early</strong>." },
+                    { type: "incorrect", text: "She speaks <span class='wrong'>good</span>. → speaks well" }
                 ]
             },
             8: {
-                title: "Passive Voice",
-                rules: [
-                    "Object becomes subject",
-                    "Use 'be' verb + past participle",
-                    "By-agent optional when unknown/unimportant"
-                ],
+                title: "Adjectives",
+                rule: "Adjectives describe nouns and pronouns. They come before the noun or after linking verbs. Comparative and superlative forms compare qualities.",
                 examples: [
-                    "The book was written by Shakespeare.",
-                    "Mistakes were made.",
-                    "The meeting will be held tomorrow."
+                    { type: "correct", text: "The <strong>tall</strong> building is impressive." },
+                    { type: "correct", text: "This is <strong>more interesting</strong> than that." },
+                    { type: "correct", text: "She is the <strong>most intelligent</strong> student." },
+                    { type: "incorrect", text: "He is <span class='wrong'>more better</span>. → better" }
                 ]
             },
             9: {
-                title: "Prepositions",
-                rules: [
-                    "Time: at (specific), on (day/date), in (month/year)",
-                    "Place: at (point), in (enclosed space), on (surface)",
-                    "Movement: to (direction), into (inside), onto (surface)"
-                ],
+                title: "Reported Speech",
+                rule: "When reporting speech, change pronouns, tenses (usually one step back), and time expressions. Remove quotation marks and use reporting verbs like 'said', 'told', 'asked'.",
                 examples: [
-                    "I'll meet you at 5 o'clock.",
-                    "The book is on the table.",
-                    "He walked into the room."
+                    { type: "correct", text: "\"I am tired\" → He said he <strong>was</strong> tired." },
+                    { type: "correct", text: "\"I will help\" → She said she <strong>would help</strong>." },
+                    { type: "correct", text: "\"today\" → <strong>that day</strong>" },
+                    { type: "incorrect", text: "He said he <span class='wrong'>is</span> hungry. → was hungry" }
                 ]
             },
             10: {
-                title: "Adjective Order",
-                rules: [
-                    "Opinion, Size, Age, Shape, Color, Origin, Material, Purpose",
-                    "Determiner comes before all adjectives",
-                    "Two adjectives of same type connected with 'and'"
-                ],
+                title: "Conditionals",
+                rule: "Zero: If + present, present (facts). First: If + present, will + base (likely). Second: If + past, would + base (unlikely). Third: If + past perfect, would have + past participle (impossible).",
                 examples: [
-                    "A beautiful small old round red Chinese wooden jewelry box",
-                    "Three big black German police dogs",
-                    "A lovely little old rectangular green French silver mirror"
+                    { type: "correct", text: "If it <strong>rains</strong>, I <strong>will stay</strong> home. (First)" },
+                    { type: "correct", text: "If I <strong>were</strong> rich, I <strong>would travel</strong>. (Second)" },
+                    { type: "correct", text: "If I <strong>had known</strong>, I <strong>would have helped</strong>. (Third)" },
+                    { type: "incorrect", text: "If I <span class='wrong'>would have</span> known... → had known" }
                 ]
             },
             11: {
-                title: "Used to / Be used to",
-                rules: [
-                    "Used to + base verb = past habit/state (no longer true)",
-                    "Be used to + -ing = accustomed to",
-                    "Get used to + -ing = becoming accustomed"
-                ],
+                title: "Passive Voice",
+                rule: "Passive voice: Object becomes subject + be + past participle. Use when the action is more important than the doer, or when the doer is unknown.",
                 examples: [
-                    "I used to smoke but I quit.",
-                    "She is used to working late.",
-                    "He is getting used to the cold weather."
+                    { type: "correct", text: "Active: She wrote the letter." },
+                    { type: "correct", text: "Passive: The letter <strong>was written</strong> by her." },
+                    { type: "correct", text: "The cake <strong>is being baked</strong>. (Present continuous)" },
+                    { type: "incorrect", text: "The book <span class='wrong'>written</span> by him. → was written" }
+                ]
+            },
+            12: {
+                title: "Prepositions",
+                rule: "Prepositions show relationships of time, place, direction, and manner. Common ones: in, on, at, by, with, for, to, from, about, between, among.",
+                examples: [
+                    { type: "correct", text: "I live <strong>in</strong> Mumbai." },
+                    { type: "correct", text: "The meeting is <strong>on</strong> Monday <strong>at</strong> 3 PM." },
+                    { type: "correct", text: "She is interested <strong>in</strong> music." },
+                    { type: "incorrect", text: "I am good <span class='wrong'>in</span> math. → at math" }
+                ]
+            },
+            13: {
+                title: "Relative Clauses",
+                rule: "Relative clauses give more information about nouns using who (people), which (things), that (both), whose (possession), where (places), when (times).",
+                examples: [
+                    { type: "correct", text: "The man <strong>who</strong> called you is here." },
+                    { type: "correct", text: "The book <strong>which/that</strong> I read was great." },
+                    { type: "correct", text: "The girl <strong>whose</strong> bag was stolen is crying." },
+                    { type: "incorrect", text: "The man <span class='wrong'>which</span> helped me... → who" }
+                ]
+            },
+            14: {
+                title: "Past Tenses",
+                rule: "Simple Past: completed actions. Past Continuous: ongoing past actions. Past Perfect: action before another past action. Past Perfect Continuous: duration before a past point.",
+                examples: [
+                    { type: "correct", text: "I <strong>finished</strong> my homework. (Simple)" },
+                    { type: "correct", text: "I <strong>was studying</strong> when he called. (Continuous)" },
+                    { type: "correct", text: "I <strong>had eaten</strong> before she arrived. (Perfect)" },
+                    { type: "incorrect", text: "When I <span class='wrong'>reached</span>, he left. → had left" }
+                ]
+            },
+            15: {
+                title: "Used to / Would",
+                rule: "'Used to' describes past habits/states that no longer exist. 'Would' describes repeated past actions (not states). 'Be used to' + gerund = accustomed to.",
+                examples: [
+                    { type: "correct", text: "I <strong>used to</strong> live in Delhi." },
+                    { type: "correct", text: "She <strong>would</strong> always help her neighbors." },
+                    { type: "correct", text: "I am <strong>used to waking</strong> up early." },
+                    { type: "incorrect", text: "I <span class='wrong'>use to</span> play cricket. → used to" }
+                ]
+            },
+            16: {
+                title: "Adjective Order",
+                rule: "Order: Opinion → Size → Age → Shape → Color → Origin → Material → Purpose. Remember: OSASCOMP.",
+                examples: [
+                    { type: "correct", text: "A <strong>beautiful large old</strong> house." },
+                    { type: "correct", text: "A <strong>small round wooden</strong> table." },
+                    { type: "correct", text: "<strong>Lovely little old rectangular green French silver whittling</strong> knife." },
+                    { type: "incorrect", text: "A <span class='wrong'>wooden round small</span> table → small round wooden" }
+                ]
+            },
+            17: {
+                title: "Articles",
+                rule: "'A' before consonant sounds, 'an' before vowel sounds. 'The' for specific/known items. No article for general plurals, uncountable concepts, proper nouns (usually).",
+                examples: [
+                    { type: "correct", text: "She is <strong>an</strong> honest woman." },
+                    { type: "correct", text: "<strong>The</strong> sun rises in the east." },
+                    { type: "correct", text: "I love music. (general - no article)" },
+                    { type: "incorrect", text: "He is <span class='wrong'>a</span> honest man. → an honest" }
+                ]
+            },
+            18: {
+                title: "Tense Consistency",
+                rule: "Maintain the same tense throughout a sentence or paragraph unless there's a clear time shift. Avoid unnecessary tense changes.",
+                examples: [
+                    { type: "correct", text: "She <strong>walked</strong> in and <strong>sat</strong> down." },
+                    { type: "correct", text: "I <strong>study</strong> daily and <strong>exercise</strong> regularly." },
+                    { type: "incorrect", text: "She walked in and <span class='wrong'>sits</span> down. → sat" },
+                    { type: "incorrect", text: "He came and <span class='wrong'>is talking</span>. → talked" }
+                ]
+            },
+            19: {
+                title: "Infinitives & Gerunds",
+                rule: "Some verbs take infinitives (to + verb), some take gerunds (verb + ing), some take both. Learn which verbs require which form.",
+                examples: [
+                    { type: "correct", text: "I want <strong>to learn</strong> French." },
+                    { type: "correct", text: "She enjoys <strong>reading</strong> books." },
+                    { type: "correct", text: "He stopped <strong>to smoke</strong>. (in order to smoke)" },
+                    { type: "incorrect", text: "I enjoy <span class='wrong'>to swim</span>. → swimming" }
+                ]
+            },
+            20: {
+                title: "Sentence Transformation",
+                rule: "Transform sentences while keeping the meaning: Active↔Passive, Direct↔Indirect, Affirmative↔Negative, Simple↔Compound↔Complex.",
+                examples: [
+                    { type: "correct", text: "Too...to → So...that: Too tired to walk → <strong>So tired that he couldn't walk</strong>" },
+                    { type: "correct", text: "No sooner...than: He arrived. It rained. → <strong>No sooner had he arrived than it rained.</strong>" },
+                    { type: "correct", text: "Unless = If...not: <strong>Unless</strong> you study = If you don't study" },
+                    { type: "incorrect", text: "<span class='wrong'>No sooner he arrived</span>... → No sooner had he arrived" }
                 ]
             }
         };
 
-        const writingContent = {
-            12: {
-                title: "Email Writing",
-                format: "Subject Line\\n\\nDear [Name],\\n\\n[Introduction]\\n\\n[Body - Details]\\n\\n[Conclusion]\\n\\nBest regards,\\n[Your Name]",
-                sample: "Subject: Inquiry About Internship Program\\n\\nDear Mr. Sharma,\\n\\nI am writing to inquire about the internship opportunities at your company. As a final year student of Business Studies, I am interested in gaining practical experience in marketing.\\n\\nI have attached my resume for your reference. I would appreciate the opportunity to discuss how I can contribute to your team.\\n\\nThank you for considering my application. I look forward to hearing from you.\\n\\nBest regards,\\nAnil KC"
-            },
-            13: {
-                title: "Speech Writing",
-                format: "[Greeting]\\n\\n[Introduction - Topic]\\n\\n[Main Points with Examples]\\n\\n[Conclusion - Call to Action]\\n\\n[Thank You]",
-                sample: "Respected Principal, teachers and dear friends,\\n\\nToday, I stand before you to speak on the importance of digital literacy in education.\\n\\nIn today's world, technology plays a vital role in learning. Students who are digitally literate have better access to information and can collaborate globally. However, the digital divide affects many students in rural areas.\\n\\nTherefore, I urge our school to invest more in computer labs and internet facilities.\\n\\nThank you all for listening."
-            },
-            14: {
-                title: "News Report",
-                format: "[Headline]\\n\\n[Dateline - Place, Date]\\n\\n[Lead Paragraph - Who, What, When, Where, Why, How]\\n\\n[Details in Body Paragraphs]\\n\\n[Quotes from Relevant People]\\n\\n[Conclusion]",
-                sample: "**Earthquake Hits Kathmandu**\\n\\nKathmandu, June 15\\n\\nA powerful earthquake measuring 6.2 on the Richter scale struck Kathmandu yesterday evening, causing significant damage to buildings and infrastructure.\\n\\nAccording to the National Seismology Center, the epicenter was located 15 kilometers east of the city center at a depth of 10 kilometers.\\n\\nLocal resident Sita Devi said, 'We felt a strong shaking for nearly one minute. Many people ran out of their houses.'\\n\\nThe government has deployed rescue teams to affected areas."
-            },
-            15: {
-                title: "Curriculum Vitae",
-                format: "[Name]\\n[Address] | [Phone] | [Email]\\n\\nCareer Objective:\\n[Brief statement]\\n\\nEducation:\\n[Qualifications in reverse chronological order]\\n\\nWork Experience:\\n[Relevant positions]\\n\\nSkills:\\n[Technical and soft skills]\\n\\nReferences: Available upon request",
-                sample: "Ramesh Thapa\\nLalitpur, Nepal | 98******** | ramesh@email.com\\n\\nCareer Objective:\\nTo obtain a challenging position in a reputable organization where I can utilize my skills and knowledge.\\n\\nEducation:\\nM.A. English, Tribhuvan University (2020-2022)\\nB.A. English, Tribhuvan University (2017-2020)\\n\\nWork Experience:\\nEnglish Teacher, ABC School (2022-Present)\\nTeaching English to Grade 11 students\\n\\nSkills:\\nFluent in English and Nepali\\nMicrosoft Office Suite\\nClassroom Management\\n\\nReferences: Available upon request"
-            },
-            16: {
-                title: "Letter to Editor",
-                format: "[Your Address]\\n[Date]\\n\\nTo\\nThe Editor\\n[Newspaper Name]\\n[Address]\\n\\nSubject: [Brief description]\\n\\nSir/Madam,\\n\\n[Introduction - Purpose of letter]\\n\\n[Body - Description of issue with facts]\\n\\n[Conclusion - Suggestions/Solution]\\n\\n[Yours sincerely,]\\n[Your Name]\\n[Contact Information]",
-                sample: "Kathmandu, Nepal\\nJune 10, 2023\\n\\nTo\\nThe Editor\\nThe Kathmandu Post\\nKathmandu, Nepal\\n\\nSubject: Need for Better Street Lighting\\n\\nSir/Madam,\\n\\nI am writing to draw attention to the poor street lighting condition in our area.\\n\\nResidents face difficulties moving around after dark, especially during winter months. Several incidents of theft and accidents have been reported due to inadequate lighting.\\n\\nI request the concerned authorities to install proper street lights along our main roads. This will enhance security and make our neighborhood safer.\\n\\nYours sincerely,\\nPooja Shrestha\\n98********"
-            }
-        };
-
-        // Question Bank - Generated for all 20 units
+        // ============================================
+        // QUESTION BANK (500 Questions)
+        // ============================================
         const questionBank = [
-            // Unit 1: Q-Tags
-            {id: 1, unit: 1, q: "She is coming to the party, _____?", options: ["isn't she", "doesn't she", "won't she", "hasn't she"], correct: 0, explain: "With 'is coming' (present continuous), the Q-tag uses 'isn't'."},
-            {id: 2, unit: 1, q: "They haven't finished their work, _____?", options: ["have they", "haven't they", "did they", "didn't they"], correct: 0, explain: "Negative statement with 'haven't' requires positive Q-tag 'have they'."},
-            {id: 3, unit: 1, q: "Let's go for a walk, _____?", options: ["shall we", "shan't we", "will you", "won't you"], correct: 0, explain: "'Let's' suggestions use 'shall we?' as Q-tag."},
-            {id: 4, unit: 1, q: "Nothing went wrong, _____?", options: ["did it", "didn't it", "does it", "doesn't it"], correct: 0, explain: "'Nothing' takes positive Q-tag 'did it' with negative statement."},
-            {id: 5, unit: 1, q: "Everyone enjoyed the concert, _____?", options: ["didn't they", "did they", "don't they", "do they"], correct: 0, explain: "'Everyone' is treated as plural in Q-tags, so 'didn't they'."},
-            {id: 6, unit: 1, q: "I'm late, _____?", options: ["aren't I", "am I", "am not I", "don't I"], correct: 0, explain: "With 'I am', Q-tag is 'aren't I' (not 'amn't I')."},
-            {id: 7, unit: 1, q: "There isn't any milk left, _____?", options: ["is there", "isn't there", "are there", "aren't there"], correct: 0, explain: "'There is' construction uses 'is there' as Q-tag."},
-            {id: 8, unit: 1, q: "He rarely makes mistakes, _____?", options: ["does he", "doesn't he", "is he", "isn't he"], correct: 0, explain: "Statements with 'rarely' are negative in meaning, so positive Q-tag."},
-            {id: 9, unit: 1, q: "This is your book, _____?", options: ["isn't it", "is it", "wasn't it", "was it"], correct: 0, explain: "Present tense statement uses corresponding auxiliary in Q-tag."},
-            {id: 10, unit: 1, q: "We must leave now, _____?", options: ["mustn't we", "don't we", "need we", "shan't we"], correct: 0, explain: "Modal verbs are repeated in Q-tags."},
+            // UNIT 1: Question Tags (Questions 1-25)
+            { id: 1, unit: 1, q: "She is a doctor, _____?", options: ["is she", "isn't she", "doesn't she", "wasn't she"], correct: 1, explain: "Positive statement + negative tag. 'She is' → 'isn't she'" },
+            { id: 2, unit: 1, q: "They haven't arrived yet, _____?", options: ["have they", "haven't they", "did they", "do they"], correct: 0, explain: "Negative statement + positive tag. 'haven't arrived' → 'have they'" },
+            { id: 3, unit: 1, q: "Let's go to the park, _____?", options: ["will we", "shall we", "do we", "let's we"], correct: 1, explain: "After 'Let's', we use 'shall we' as the question tag." },
+            { id: 4, unit: 1, q: "Nobody came to the party, _____?", options: ["did they", "didn't they", "came they", "do they"], correct: 0, explain: "'Nobody' is negative, so we use positive tag 'did they'." },
+            { id: 5, unit: 1, q: "I am your friend, _____?", options: ["amn't I", "aren't I", "am I", "isn't I"], correct: 1, explain: "Special case: 'I am' takes 'aren't I' as the tag (not 'amn't I')." },
+            { id: 6, unit: 1, q: "He can swim well, _____?", options: ["can he", "can't he", "could he", "couldn't he"], correct: 1, explain: "Modal 'can' + positive → negative tag 'can't he'." },
+            { id: 7, unit: 1, q: "You won't forget me, _____?", options: ["won't you", "will you", "would you", "do you"], correct: 1, explain: "Negative 'won't' → positive tag 'will you'." },
+            { id: 8, unit: 1, q: "She never eats meat, _____?", options: ["doesn't she", "does she", "is she", "hasn't she"], correct: 1, explain: "'Never' makes it negative, so positive tag 'does she'." },
+            { id: 9, unit: 1, q: "Open the door, _____?", options: ["will you", "do you", "shall you", "can't you"], correct: 0, explain: "Imperative sentences take 'will you' or 'won't you' as tags." },
+            { id: 10, unit: 1, q: "There is a problem, _____?", options: ["is there", "isn't there", "isn't it", "is it"], correct: 1, explain: "'There is' → 'isn't there' (keep 'there' in the tag)." },
+            { id: 11, unit: 1, q: "Someone called you, _____?", options: ["didn't they", "did they", "didn't someone", "called they"], correct: 0, explain: "'Someone' takes 'they' in the tag. Positive → negative 'didn't they'." },
+            { id: 12, unit: 1, q: "This is beautiful, _____?", options: ["isn't this", "isn't it", "is this", "is it"], correct: 1, explain: "'This/That is' → 'isn't it' (use 'it' in the tag)." },
+            { id: 13, unit: 1, q: "You have finished, _____?", options: ["have you", "haven't you", "did you", "don't you"], correct: 1, explain: "'Have finished' (positive) → 'haven't you' (negative tag)." },
+            { id: 14, unit: 1, q: "She had better stay, _____?", options: ["had she", "hadn't she", "should she", "shouldn't she"], correct: 1, explain: "'Had better' → 'hadn't + subject' as tag." },
+            { id: 15, unit: 1, q: "Everything is fine, _____?", options: ["isn't everything", "isn't it", "is it", "are they"], correct: 1, explain: "'Everything' is singular and takes 'isn't it' as the tag." },
+            { id: 16, unit: 1, q: "Don't make noise, _____?", options: ["do you", "will you", "don't you", "won't you"], correct: 1, explain: "Negative imperative 'Don't' → 'will you' (polite request)." },
+            { id: 17, unit: 1, q: "She used to live here, _____?", options: ["usedn't she", "didn't she", "did she", "used she"], correct: 1, explain: "'Used to' takes 'didn't' in the tag (more common usage)." },
+            { id: 18, unit: 1, q: "He rarely speaks, _____?", options: ["doesn't he", "does he", "speaks he", "is he"], correct: 1, explain: "'Rarely' is negative in meaning → positive tag 'does he'." },
+            { id: 19, unit: 1, q: "You'd rather stay, _____?", options: ["had you", "wouldn't you", "would you", "hadn't you"], correct: 1, explain: "'Would rather' → 'wouldn't you' as the tag." },
+            { id: 20, unit: 1, q: "Neither of them came, _____?", options: ["did they", "didn't they", "came they", "neither they"], correct: 0, explain: "'Neither' is negative → positive tag 'did they'." },
+            { id: 21, unit: 1, q: "She must be tired, _____?", options: ["must she", "mustn't she", "isn't she", "is she"], correct: 2, explain: "When 'must' expresses deduction, use 'isn't she' (based on 'be')." },
+            { id: 22, unit: 1, q: "He need not come, _____?", options: ["need he", "needn't he", "does he", "doesn't he"], correct: 0, explain: "'Need not' (modal) → 'need he' as positive tag." },
+            { id: 23, unit: 1, q: "Few people know this, _____?", options: ["don't they", "do they", "know they", "did they"], correct: 1, explain: "'Few' is negative in meaning → positive tag 'do they'." },
+            { id: 24, unit: 1, q: "We should help them, _____?", options: ["should we", "shouldn't we", "shall we", "shan't we"], correct: 1, explain: "'Should' (positive) → 'shouldn't we' (negative tag)." },
+            { id: 25, unit: 1, q: "You've got a car, _____?", options: ["have you", "haven't you", "got you", "don't you"], correct: 1, explain: "'Have got' → 'haven't you' (British English)." },
 
-            // Unit 2: Modals
-            {id: 11, unit: 2, q: "You _____ finish your homework before playing games.", options: ["must", "might", "could", "would"], correct: 0, explain: "'Must' expresses obligation or necessity."},
-            {id: 12, unit: 2, q: "_____ you help me with this problem?", options: ["Could", "Should", "Would", "May"], correct: 0, explain: "'Could' is used for polite requests."},
-            {id: 13, unit: 2, q: "It _____ rain today; the sky looks very dark.", options: ["might", "must", "can", "ought to"], correct: 0, explain: "'Might' expresses possibility."},
-            {id: 14, unit: 2, q: "Students _____ use mobile phones during exams.", options: ["must not", "might not", "could not", "would not"], correct: 0, explain: "'Must not' expresses prohibition."},
-            {id: 15, unit: 2, q: "_____ I borrow your pen for a moment?", options: ["May", "Can", "Must", "Should"], correct: 0, explain: "'May' is used for formal permission requests."},
-            {id: 16, unit: 2, q: "She _____ swim when she was five years old.", options: ["could", "might", "should", "must"], correct: 0, explain: "'Could' expresses past ability."},
-            {id: 17, unit: 2, q: "You _____ worry about the exam; you've prepared well.", options: ["need not", "must not", "cannot", "should not"], correct: 0, explain: "'Need not' means there is no necessity."},
-            {id: 18, unit: 2, q: "_____ you please pass the salt?", options: ["Could", "Would", "Should", "May"], correct: 0, explain: "'Could' is preferred for polite requests."},
-            {id: 19, unit: 2, q: "This medicine _____ cure your headache.", options: ["may", "must", "ought to", "shall"], correct: 0, explain: "'May' expresses possibility of effectiveness."},
-            {id: 20, unit: 2, q: "You _____ respect your elders.", options: ["should", "could", "might", "would"], correct: 0, explain: "'Should' expresses moral obligation."},
+            // UNIT 2: Modals (Questions 26-50)
+            { id: 26, unit: 2, q: "You _____ see a doctor immediately.", options: ["can", "might", "must", "could"], correct: 2, explain: "'Must' expresses strong obligation/necessity for health advice." },
+            { id: 27, unit: 2, q: "She _____ speak three languages fluently.", options: ["can", "may", "must", "ought"], correct: 0, explain: "'Can' expresses ability. She has the ability to speak languages." },
+            { id: 28, unit: 2, q: "_____ I use your phone?", options: ["Would", "Should", "May", "Must"], correct: 2, explain: "'May' is used for formal permission requests." },
+            { id: 29, unit: 2, q: "You _____ smoke in the hospital.", options: ["must not", "need not", "may not", "would not"], correct: 0, explain: "'Must not' expresses prohibition - it's forbidden." },
+            { id: 30, unit: 2, q: "He _____ be at home. I saw him at the mall.", options: ["can't", "mustn't", "shouldn't", "wouldn't"], correct: 0, explain: "'Can't' expresses logical impossibility based on evidence." },
+            { id: 31, unit: 2, q: "You _____ have told me earlier.", options: ["should", "could", "would", "might"], correct: 0, explain: "'Should have' expresses criticism about past action." },
+            { id: 32, unit: 2, q: "She _____ to help the poor.", options: ["ought", "should", "must", "might"], correct: 0, explain: "'Ought to' is followed by infinitive, expressing moral duty." },
+            { id: 33, unit: 2, q: "_____ you mind closing the window?", options: ["Will", "Would", "Should", "Must"], correct: 1, explain: "'Would you mind' is a polite request formula." },
+            { id: 34, unit: 2, q: "It _____ rain tomorrow according to the forecast.", options: ["might", "must", "shall", "need"], correct: 0, explain: "'Might' expresses possibility (not certainty)." },
+            { id: 35, unit: 2, q: "We _____ obey traffic rules.", options: ["could", "would", "must", "might"], correct: 2, explain: "'Must' expresses strong obligation/necessity." },
+            { id: 36, unit: 2, q: "You _____ not worry. Everything will be fine.", options: ["need", "must", "would", "should"], correct: 0, explain: "'Need not' expresses lack of necessity." },
+            { id: 37, unit: 2, q: "He _____ have reached by now.", options: ["may", "should", "need", "would"], correct: 1, explain: "'Should have' expresses expectation about completed action." },
+            { id: 38, unit: 2, q: "_____ that I were young again!", options: ["Would", "Should", "Could", "Might"], correct: 0, explain: "'Would that' is a formal expression of wish." },
+            { id: 39, unit: 2, q: "You _____ as well stay here tonight.", options: ["might", "may", "could", "should"], correct: 0, explain: "'Might as well' suggests something is a reasonable option." },
+            { id: 40, unit: 2, q: "She _____ rather die than beg.", options: ["will", "would", "should", "could"], correct: 1, explain: "'Would rather' expresses preference." },
+            { id: 41, unit: 2, q: "Students _____ wear uniforms to school.", options: ["have to", "has to", "having to", "had to"], correct: 0, explain: "'Have to' (obligation) is used with plural subject 'students'." },
+            { id: 42, unit: 2, q: "She _____ dance beautifully when she was young.", options: ["can", "could", "may", "might"], correct: 1, explain: "'Could' is the past tense of 'can' for past ability." },
+            { id: 43, unit: 2, q: "I _____ complete this project by Friday.", options: ["able to", "am able to", "can to", "able"], correct: 1, explain: "'Am able to' is the correct form expressing capability." },
+            { id: 44, unit: 2, q: "You _____ not have done that. It was wrong.", options: ["should", "ought", "need", "could"], correct: 0, explain: "'Should not have' expresses disapproval of past action." },
+            { id: 45, unit: 2, q: "_____ you please help me with this?", options: ["Should", "Could", "Might", "Must"], correct: 1, explain: "'Could you please' is a polite request." },
+            { id: 46, unit: 2, q: "They _____ be twins. They look so alike.", options: ["can", "must", "shall", "would"], correct: 1, explain: "'Must' here expresses logical deduction/certainty." },
+            { id: 47, unit: 2, q: "He _____ swim when he was five.", options: ["can", "could", "may", "might"], correct: 1, explain: "'Could' expresses past ability." },
+            { id: 48, unit: 2, q: "You _____ better hurry or you'll miss the bus.", options: ["had", "would", "should", "could"], correct: 0, explain: "'Had better' expresses strong advice/warning." },
+            { id: 49, unit: 2, q: "She _____ be in her room. I just saw her go upstairs.", options: ["can", "might", "must", "would"], correct: 2, explain: "'Must' expresses logical deduction based on evidence." },
+            { id: 50, unit: 2, q: "We _____ to finish this work today.", options: ["need", "must", "have", "should"], correct: 0, explain: "'Need' can be used as main verb + infinitive." },
 
-            // Unit 3: Determiners
-            {id: 21, unit: 3, q: "I saw _____ elephant at the zoo yesterday.", options: ["an", "a", "the", "some"], correct: 0, explain: "'An' is used before vowel sounds."},
-            {id: 22, unit: 3, q: "He is _____ honest man.", options: ["an", "a", "the", "any"], correct: 0, explain: "'An' is used before words starting with vowel sounds."},
-            {id: 23, unit: 3, q: "Have you seen _____ keys? I can't find them.", options: ["the", "a", "an", "any"], correct: 0, explain: "'The' refers to specific keys previously mentioned."},
-            {id: 24, unit: 3, q: "She bought _____ new car last week.", options: ["a", "an", "the", "some"], correct: 0, explain: "'A' is used for non-specific items."},
-            {id: 25, unit: 3, q: "This is _____ best movie I have ever watched.", options: ["the", "a", "an", "some"], correct: 0, explain: "Superlatives require 'the'."},
-            {id: 26, unit: 3, q: "I need _____ sugar for my tea.", options: ["some", "a", "an", "the"], correct: 0, explain: "'Some' is used in positive sentences for unspecified quantities."},
-            {id: 27, unit: 3, q: "There aren't _____ apples left.", options: ["any", "some", "a", "an"], correct: 0, explain: "'Any' is used in negative sentences."},
-            {id: 28, unit: 3, q: "_____ of the students passed the exam.", options: ["Most", "Many", "Much", "Few"], correct: 0, explain: "'Most' is a determiner showing majority."},
-            {id: 29, unit: 3, q: "This is _____ my book.", options: ["neither", "either", "both", "all"], correct: 0, explain: "'Neither' means not one nor the other."},
-            {id: 30, unit: 3, q: "I have _____ idea what you're talking about.", options: ["no", "not", "none", "any"], correct: 0, explain: "'No' is used before nouns to mean 'not any'."},
+            // UNIT 3: Determiners (Questions 51-75)
+            { id: 51, unit: 3, q: "There is _____ milk in the fridge.", options: ["a few", "few", "a little", "little"], correct: 2, explain: "'A little' is positive with uncountable nouns (milk)." },
+            { id: 52, unit: 3, q: "I have _____ friends in this city.", options: ["a few", "a little", "much", "little"], correct: 0, explain: "'A few' is positive with countable plural nouns (friends)." },
+            { id: 53, unit: 3, q: "_____ student must carry their ID card.", options: ["Every", "All", "Some", "Any"], correct: 0, explain: "'Every' + singular noun for each individual member." },
+            { id: 54, unit: 3, q: "There isn't _____ water left.", options: ["some", "many", "much", "few"], correct: 2, explain: "'Much' with uncountable nouns in negative sentences." },
+            { id: 55, unit: 3, q: "_____ of the students passed the exam.", options: ["Each", "Every", "All", "Neither"], correct: 2, explain: "'All of the students' is correct for referring to the entire group." },
+            { id: 56, unit: 3, q: "I don't have _____ money.", options: ["some", "any", "no", "few"], correct: 1, explain: "'Any' is used in negative sentences." },
+            { id: 57, unit: 3, q: "Would you like _____ tea?", options: ["any", "some", "few", "many"], correct: 1, explain: "'Some' in offers and requests (expecting yes)." },
+            { id: 58, unit: 3, q: "_____ pen will do. Just give me one.", options: ["Some", "Any", "Every", "Each"], correct: 1, explain: "'Any' = it doesn't matter which one." },
+            { id: 59, unit: 3, q: "She has _____ patience. She gets angry quickly.", options: ["a little", "little", "few", "a few"], correct: 1, explain: "'Little' (without 'a') is negative - hardly any patience." },
+            { id: 60, unit: 3, q: "_____ the boys are playing football.", options: ["All", "Every", "Each", "Either"], correct: 0, explain: "'All' + article + plural noun for the whole group." },
+            { id: 61, unit: 3, q: "There are _____ apples left in the basket.", options: ["little", "a little", "few", "a few"], correct: 3, explain: "'A few' (positive) with countable plural nouns." },
+            { id: 62, unit: 3, q: "_____ of the two options is acceptable.", options: ["Either", "Neither", "Both", "Each"], correct: 0, explain: "'Either' means one or the other of two options." },
+            { id: 63, unit: 3, q: "_____ of the two answers is correct.", options: ["Either", "Neither", "Both", "Each"], correct: 1, explain: "'Neither' means not one and not the other (both wrong)." },
+            { id: 64, unit: 3, q: "_____ children like chocolates.", options: ["Much", "Many", "Most", "Little"], correct: 2, explain: "'Most' + plural noun for majority." },
+            { id: 65, unit: 3, q: "I have _____ things to do today.", options: ["much", "many", "little", "less"], correct: 1, explain: "'Many' with countable plural nouns (things)." },
+            { id: 66, unit: 3, q: "_____ student in the class has a book.", options: ["Every", "All", "Both", "Most"], correct: 0, explain: "'Every' + singular noun for each individual." },
+            { id: 67, unit: 3, q: "There is _____ hope left.", options: ["few", "a few", "little", "a little"], correct: 3, explain: "'A little' (positive) with uncountable noun (hope)." },
+            { id: 68, unit: 3, q: "I need _____ more time to complete this.", options: ["a few", "few", "a little", "little"], correct: 2, explain: "'A little' with uncountable noun (time)." },
+            { id: 69, unit: 3, q: "He ate _____ the cake.", options: ["whole", "all", "every", "complete"], correct: 1, explain: "'All' + article + singular noun (the whole of)." },
+            { id: 70, unit: 3, q: "_____ side of the road has trees.", options: ["Either", "Both", "Each", "Every"], correct: 2, explain: "'Each' emphasizes individual sides (both, considered separately)." },
+            { id: 71, unit: 3, q: "I have _____ interest in sports.", options: ["any", "no", "few", "many"], correct: 1, explain: "'No' + noun for complete absence." },
+            { id: 72, unit: 3, q: "_____ people know about this secret.", options: ["Little", "Few", "A little", "A few"], correct: 1, explain: "'Few' (negative) with countable - hardly any people." },
+            { id: 73, unit: 3, q: "She gave me _____ advice.", options: ["a", "an", "some", "few"], correct: 2, explain: "'Advice' is uncountable; use 'some advice'." },
+            { id: 74, unit: 3, q: "_____ boy was given a prize.", options: ["Each", "Every", "All", "Both"], correct: 0, explain: "'Each' + singular noun for individual distribution." },
+            { id: 75, unit: 3, q: "There isn't _____ sugar in my tea.", options: ["many", "enough", "few", "some"], correct: 1, explain: "'Enough' with negatives to indicate insufficiency." },
 
-            // Unit 4: Subject-Verb Agreement
-            {id: 31, unit: 4, q: "The committee _____ divided on this issue.", options: ["is", "are", "were", "have been"], correct: 0, explain: "Collective nouns take singular verbs when acting as a unit."},
-            {id: 32, unit: 4, q: "Each of the students _____ responsible for their own work.", options: ["is", "are", "were", "have been"], correct: 0, explain: "When 'each' is the subject, verb is singular."},
-            {id: 33, unit: 4, q: "The news _____ very depressing today.", options: ["is", "are", "were", "have been"], correct: 0, explain: "'News' is uncountable and takes singular verb."},
-            {id: 34, unit: 4, q: "Neither of the candidates _____ qualified for the position.", options: ["is", "are", "were", "have been"], correct: 0, explain: "'Neither' takes singular verb."},
-            {id: 35, unit: 4, q: "A number of people _____ applied for the job.", options: ["have", "has", "is", "are"], correct: 0, explain: "'A number of' takes plural verb."},
-            {id: 36, unit: 4, q: "The United States _____ a federal republic.", options: ["is", "are", "were", "have been"], correct: 0, explain: "Country names take singular verbs."},
-            {id: 37, unit: 4, q: "My family _____ planning a vacation next month.", options: ["is", "are", "were", "have been"], correct: 0, explain: "Family as a unit takes singular verb."},
-            {id: 38, unit: 4, q: "Five miles _____ a long distance to walk.", options: ["is", "are", "were", "have been"], correct: 0, explain: "Distances take singular verbs."},
-            {id: 39, unit: 4, q: "Mathematics _____ a difficult subject for many students.", options: ["is", "are", "were", "have been"], correct: 0, explain: "Academic subjects take singular verbs."},
-            {id: 40, unit: 4, q: "The jury _____ reached a verdict.", options: ["has", "have", "is", "are"], correct: 0, explain: "Jury acting collectively takes singular verb."},
+            // UNIT 4: Subject-Verb Agreement (Questions 76-100)
+            { id: 76, unit: 4, q: "The news _____ shocking.", options: ["are", "is", "were", "have been"], correct: 1, explain: "'News' is uncountable and takes singular verb 'is'." },
+            { id: 77, unit: 4, q: "Mathematics _____ my favorite subject.", options: ["are", "is", "were", "have been"], correct: 1, explain: "Subject names ending in 's' take singular verb." },
+            { id: 78, unit: 4, q: "The police _____ arrived.", options: ["has", "have", "is", "was"], correct: 1, explain: "'Police' is a collective noun taking plural verb." },
+            { id: 79, unit: 4, q: "Neither of the students _____ present.", options: ["was", "were", "are", "have been"], correct: 0, explain: "'Neither of' takes singular verb." },
+            { id: 80, unit: 4, q: "One of the boys _____ missing.", options: ["are", "is", "were", "have"], correct: 1, explain: "'One of' always takes singular verb." },
+            { id: 81, unit: 4, q: "The committee _____ divided on this issue.", options: ["is", "are", "was", "were"], correct: 1, explain: "When committee members disagree, use plural verb." },
+            { id: 82, unit: 4, q: "Bread and butter _____ my breakfast.", options: ["are", "is", "were", "have been"], correct: 1, explain: "When two nouns form one unit, use singular verb." },
+            { id: 83, unit: 4, q: "The furniture _____ expensive.", options: ["are", "is", "were", "have been"], correct: 1, explain: "'Furniture' is uncountable; takes singular verb." },
+            { id: 84, unit: 4, q: "Each of the players _____ given a medal.", options: ["was", "were", "are", "have been"], correct: 0, explain: "'Each of' always takes singular verb." },
+            { id: 85, unit: 4, q: "Either the teacher or the students _____ wrong.", options: ["is", "are", "was", "has been"], correct: 1, explain: "With 'or', verb agrees with nearest subject (students-plural)." },
+            { id: 86, unit: 4, q: "A number of students _____ absent today.", options: ["is", "are", "was", "has been"], correct: 1, explain: "'A number of' takes plural verb." },
+            { id: 87, unit: 4, q: "The number of students _____ increasing.", options: ["are", "is", "were", "have been"], correct: 1, explain: "'The number of' takes singular verb." },
+            { id: 88, unit: 4, q: "Everybody _____ excited about the trip.", options: ["are", "is", "were", "have been"], correct: 1, explain: "'Everybody' is singular indefinite pronoun." },
+            { id: 89, unit: 4, q: "The scissors _____ on the table.", options: ["is", "are", "was", "has been"], correct: 1, explain: "'Scissors' is always plural in form." },
+            { id: 90, unit: 4, q: "Ten kilometers _____ a long distance.", options: ["are", "is", "were", "have been"], correct: 1, explain: "Distance/time/money as single unit takes singular verb." },
+            { id: 91, unit: 4, q: "The audience _____ clapping.", options: ["is", "are", "was", "were"], correct: 1, explain: "'Audience' as individuals acting together takes plural." },
+            { id: 92, unit: 4, q: "No news _____ good news.", options: ["are", "is", "were", "have been"], correct: 1, explain: "'News' is always singular." },
+            { id: 93, unit: 4, q: "Many a student _____ failed the exam.", options: ["have", "has", "are", "were"], correct: 1, explain: "'Many a' takes singular verb despite plural meaning." },
+            { id: 94, unit: 4, q: "Neither John nor his brothers _____ here.", options: ["is", "are", "was", "has been"], correct: 1, explain: "Verb agrees with nearest subject 'brothers' (plural)." },
+            { id: 95, unit: 4, q: "The staff _____ working hard.", options: ["is", "are", "was", "has been"], correct: 1, explain: "'Staff' as group of individuals takes plural verb." },
+            { id: 96, unit: 4, q: "Physics _____ an interesting subject.", options: ["are", "is", "were", "have been"], correct: 1, explain: "Subject names take singular verb." },
+            { id: 97, unit: 4, q: "None of the food _____ left.", options: ["are", "is", "were", "have been"], correct: 1, explain: "'None of' + uncountable noun takes singular." },
+            { id: 98, unit: 4, q: "The rich _____ not always happy.", options: ["is", "are", "was", "has been"], correct: 1, explain: "'The + adjective' for a group takes plural verb." },
+            { id: 99, unit: 4, q: "Two thirds of the work _____ completed.", options: ["are", "is", "were", "have been"], correct: 1, explain: "Fraction + uncountable noun takes singular verb." },
+            { id: 100, unit: 4, q: "Either she or I _____ going to the party.", options: ["is", "am", "are", "was"], correct: 1, explain: "With 'or', verb agrees with nearest subject 'I'." },
 
-            // Unit 5: Connectives
-            {id: 41, unit: 5, q: "She studied hard _____ she could pass the exam.", options: ["so that", "because", "although", "while"], correct: 0, explain: "'So that' shows purpose/result."},
-            {id: 42, unit: 5, q: "_____ he was tired, he continued working.", options: ["Although", "Because", "Since", "As"], correct: 0, explain: "'Although' introduces contrast."},
-            {id: 43, unit: 5, q: "I like tea _____ my sister prefers coffee.", options: ["but", "and", "or", "so"], correct: 0, explain: "'But' shows contrast between two ideas."},
-            {id: 44, unit: 5, q: "He didn't come to school _____ he was ill.", options: ["because", "so", "but", "although"], correct: 0, explain: "'Because' shows reason/cause."},
-            {id: 45, unit: 5, q: "We can go to the park _____ we can stay home.", options: ["or", "but", "and", "so"], correct: 0, explain: "'Or' presents alternatives."},
-            {id: 46, unit: 5, q: "She speaks English _____ French fluently.", options: ["and", "but", "or", "so"], correct: 0, explain: "'And' connects similar ideas."},
-            {id: 47, unit: 5, q: "_____ it started raining, we decided to go inside.", options: ["When", "Because", "Although", "Unless"], correct: 0, explain: "'When' indicates time sequence."},
-            {id: 48, unit: 5, q: "You won't succeed _____ you work harder.", options: ["unless", "if", "when", "because"], correct: 0, explain: "'Unless' means 'if not'."},
-            {id: 49, unit: 5, q: "He is not only intelligent _____ also hardworking.", options: ["but", "and", "or", "so"], correct: 0, explain: "'Not only...but also' is a correlative conjunction pair."},
-            {id: 50, unit: 5, q: "_____ she was reading, the phone rang.", options: ["While", "Because", "Although", "Since"], correct: 0, explain: "'While' shows simultaneous actions."},
+            // UNIT 5: Connectives (Questions 101-125)
+            { id: 101, unit: 5, q: "She was tired, _____ she continued working.", options: ["so", "but", "and", "because"], correct: 1, explain: "'But' shows contrast between being tired and continuing." },
+            { id: 102, unit: 5, q: "I studied hard; _____, I passed the exam.", options: ["however", "therefore", "although", "but"], correct: 1, explain: "'Therefore' shows result/consequence." },
+            { id: 103, unit: 5, q: "_____ it was raining, we went out.", options: ["Because", "Although", "So", "Therefore"], correct: 1, explain: "'Although' shows contrast/concession." },
+            { id: 104, unit: 5, q: "He is rich; _____, he is not happy.", options: ["therefore", "so", "however", "because"], correct: 2, explain: "'However' shows unexpected contrast." },
+            { id: 105, unit: 5, q: "She can sing _____ dance.", options: ["but also", "and also", "as well as", "together"], correct: 2, explain: "'As well as' connects two abilities." },
+            { id: 106, unit: 5, q: "I was late _____ I missed the bus.", options: ["because", "so", "but", "although"], correct: 0, explain: "'Because' gives the reason for being late." },
+            { id: 107, unit: 5, q: "Work hard, _____ you will fail.", options: ["and", "or", "but", "so"], correct: 1, explain: "'Or' shows consequence if action not taken (warning)." },
+            { id: 108, unit: 5, q: "He is _____ intelligent _____ hardworking.", options: ["both...and", "either...or", "neither...nor", "not only...but"], correct: 0, explain: "'Both...and' connects two positive qualities." },
+            { id: 109, unit: 5, q: "_____ you work hard, you won't succeed.", options: ["If", "Unless", "Although", "Because"], correct: 1, explain: "'Unless' = if not. Condition for success." },
+            { id: 110, unit: 5, q: "She is intelligent; _____, she is humble.", options: ["moreover", "therefore", "otherwise", "hence"], correct: 0, explain: "'Moreover' adds additional information." },
+            { id: 111, unit: 5, q: "I like tea _____ coffee.", options: ["or", "but", "so", "because"], correct: 0, explain: "'Or' shows alternative/choice." },
+            { id: 112, unit: 5, q: "He was ill; _____, he came to work.", options: ["so", "therefore", "nevertheless", "hence"], correct: 2, explain: "'Nevertheless' shows contrast (despite illness)." },
+            { id: 113, unit: 5, q: "_____ he is young, he is very mature.", options: ["Because", "Although", "If", "Unless"], correct: 1, explain: "'Although' shows unexpected quality (young but mature)." },
+            { id: 114, unit: 5, q: "I will help you _____ you help yourself.", options: ["because", "provided", "unless", "although"], correct: 1, explain: "'Provided' = on the condition that." },
+            { id: 115, unit: 5, q: "She was tired, _____ she went to bed early.", options: ["but", "so", "although", "however"], correct: 1, explain: "'So' shows result/consequence of tiredness." },
+            { id: 116, unit: 5, q: "I will go _____ it rains.", options: ["if", "unless", "whether", "even if"], correct: 3, explain: "'Even if' = regardless of whether it rains." },
+            { id: 117, unit: 5, q: "He _____ apologized _____ explained.", options: ["neither...nor", "either...or", "both...and", "not only...but"], correct: 0, explain: "'Neither...nor' for two negative options." },
+            { id: 118, unit: 5, q: "Finish your work; _____, you can't go out.", options: ["however", "otherwise", "therefore", "moreover"], correct: 1, explain: "'Otherwise' = if not, shows consequence." },
+            { id: 119, unit: 5, q: "She sings _____ she plays the guitar.", options: ["when", "while", "during", "as if"], correct: 1, explain: "'While' = at the same time as." },
+            { id: 120, unit: 5, q: "I'll call you _____ I reach home.", options: ["as soon as", "as long as", "as far as", "as well as"], correct: 0, explain: "'As soon as' = immediately when." },
+            { id: 121, unit: 5, q: "_____ you apologize, I won't forgive you.", options: ["Unless", "If", "Though", "Because"], correct: 0, explain: "'Unless' = if you don't apologize." },
+            { id: 122, unit: 5, q: "The movie was boring; _____, we left early.", options: ["moreover", "however", "therefore", "although"], correct: 2, explain: "'Therefore' shows result of the movie being boring." },
+            { id: 123, unit: 5, q: "She talks _____ she knows everything.", options: ["as if", "as", "like", "so that"], correct: 0, explain: "'As if' = in a way that suggests (unreal)." },
+            { id: 124, unit: 5, q: "I read _____ I might learn.", options: ["so that", "such that", "in order", "for that"], correct: 0, explain: "'So that' expresses purpose." },
+            { id: 125, unit: 5, q: "He ran fast _____ he could catch the train.", options: ["so that", "in order", "because", "although"], correct: 0, explain: "'So that' shows purpose of running fast." },
 
-            // Unit 6: Reported Speech
-            {id: 51, unit: 6, q: "He said, 'I am tired.' → He said that _____.", options: ["he was tired", "I was tired", "he is tired", "I am tired"], correct: 0, explain: "Present tense changes to past in reported speech."},
-            {id: 52, unit: 6, q: "She asked, 'Where do you live?' → She asked me _____.", options: ["where I lived", "where do I live", "where I live", "where did I live"], correct: 0, explain: "Direct question becomes indirect with backshift."},
-            {id: 53, unit: 6, q: "'I have finished my work,' he said. → He said that _____.", options: ["he had finished his work", "he has finished his work", "I had finished my work", "I have finished my work"], correct: 0, explain: "Present perfect changes to past perfect."},
-            {id: 54, unit: 6, q: "The teacher said, 'Don't talk during the test.' → The teacher told the students _____.", options: ["not to talk during the test", "to not talk during the test", "don't talk during the test", "not talk during the test"], correct: 0, explain: "Imperative becomes infinitive with 'to'."},
-            {id: 55, unit: 6, q: "'Will you help me?' she asked. → She asked me _____.", options: ["if I would help her", "if I will help her", "would I help her", "will I help her"], correct: 0, explain: "Future tense changes to conditional in reported speech."},
-            {id: 56, unit: 6, q: "He said, 'I went to the market yesterday.' → He said that _____.", options: ["he had gone to the market the previous day", "he went to the market yesterday", "he goes to the market yesterday", "he has gone to the market yesterday"], correct: 0, explain: "Past simple and time expression change in reporting."},
-            {id: 57, unit: 6, q: "'What are you doing?' she asked. → She asked me _____.", options: ["what I was doing", "what was I doing", "what I am doing", "what am I doing"], correct: 0, explain: "Present continuous changes to past continuous."},
-            {id: 58, unit: 6, q: "He said to me, 'Please wait here.' → He requested me _____.", options: ["to wait there", "to wait here", "wait there", "wait here"], correct: 0, explain: "Place expressions change and imperative becomes infinitive."},
-            {id: 59, unit: 6, q: "'I can swim,' he said. → He said that _____.", options: ["he could swim", "he can swim", "I could swim", "I can swim"], correct: 0, explain: "Modal 'can' changes to 'could'."},
-            {id: 60, unit: 6, q: "She said, 'I have been waiting for an hour.' → She said that _____.", options: ["she had been waiting for an hour", "she has been waiting for an hour", "I had been waiting for an hour", "I have been waiting for an hour"], correct: 0, explain: "Present perfect continuous changes to past perfect continuous."},
+            // UNIT 6: Direct & Indirect Questions (Questions 126-150)
+            { id: 126, unit: 6, q: "Could you tell me where _____?", options: ["does she live", "she lives", "she does live", "is she living"], correct: 1, explain: "Indirect questions use statement word order." },
+            { id: 127, unit: 6, q: "I wonder if he _____ coming.", options: ["is", "does", "will", "shall"], correct: 0, explain: "Indirect question: 'if + subject + verb'." },
+            { id: 128, unit: 6, q: "Do you know what time _____?", options: ["is it", "it is", "does it", "it does"], correct: 1, explain: "Indirect: 'what time it is' (statement order)." },
+            { id: 129, unit: 6, q: "I asked her where _____ going.", options: ["was she", "she was", "is she", "she is"], correct: 1, explain: "Indirect question uses statement order + past tense." },
+            { id: 130, unit: 6, q: "Can you explain how _____ this?", options: ["do I use", "I use", "I do use", "use I"], correct: 1, explain: "Indirect question: 'how I use' (statement order)." },
+            { id: 131, unit: 6, q: "She asked me _____ I was free.", options: ["that", "if", "what", "which"], correct: 1, explain: "'If' or 'whether' for yes/no indirect questions." },
+            { id: 132, unit: 6, q: "I don't know why _____ so upset.", options: ["is he", "he is", "was he", "he was"], correct: 1, explain: "Indirect: 'why he is' (present, statement order)." },
+            { id: 133, unit: 6, q: "Could you tell me _____ the station is?", options: ["how far", "how much far", "how many far", "how long"], correct: 0, explain: "'How far' for distance questions." },
+            { id: 134, unit: 6, q: "I wonder _____ he will come.", options: ["that", "if", "what", "which"], correct: 1, explain: "'If/whether' for indirect yes/no questions." },
+            { id: 135, unit: 6, q: "She asked _____ I had finished.", options: ["that", "whether", "what", "which"], correct: 1, explain: "'Whether' for indirect yes/no questions." },
+            { id: 136, unit: 6, q: "Do you know whose book _____?", options: ["is this", "this is", "was this", "this was"], correct: 1, explain: "Indirect: 'whose book this is'." },
+            { id: 137, unit: 6, q: "I asked him when _____ arrive.", options: ["would he", "he would", "will he", "he will"], correct: 1, explain: "Reported question: past tense, statement order." },
+            { id: 138, unit: 6, q: "Can you tell me where _____ the tickets?", options: ["can I buy", "I can buy", "I buy can", "buy I can"], correct: 1, explain: "Indirect: statement word order." },
+            { id: 139, unit: 6, q: "I want to know what _____ yesterday.", options: ["happened", "did happen", "was happened", "happening"], correct: 0, explain: "'What happened' - 'what' is subject, no auxiliary needed." },
+            { id: 140, unit: 6, q: "She wondered _____ I liked the gift.", options: ["that", "if", "what", "which"], correct: 1, explain: "'If/whether' for yes/no indirect questions." },
+            { id: 141, unit: 6, q: "Do you remember where _____?", options: ["did you put", "you put", "put you", "you did put"], correct: 1, explain: "Indirect question uses statement order." },
+            { id: 142, unit: 6, q: "I have no idea how old _____.", options: ["is he", "he is", "was he", "he was"], correct: 1, explain: "Embedded question: 'how old he is'." },
+            { id: 143, unit: 6, q: "Could you explain why _____ late?", options: ["were you", "you were", "are you", "you are"], correct: 3, explain: "Indirect: 'why you are late'." },
+            { id: 144, unit: 6, q: "He asked me _____ help him.", options: ["that I", "if I could", "can I", "could I"], correct: 1, explain: "Reported request: 'if + subject + could'." },
+            { id: 145, unit: 6, q: "I'm not sure what _____ means.", options: ["does this word", "this word", "this word does", "word this"], correct: 1, explain: "Indirect: 'what this word means'." },
+            { id: 146, unit: 6, q: "She wanted to know _____ I was going.", options: ["that where", "where", "where that", "that"], correct: 1, explain: "Wh-word introduces indirect question." },
+            { id: 147, unit: 6, q: "Do you know how much _____?", options: ["does it cost", "it costs", "costs it", "it does cost"], correct: 1, explain: "Indirect: 'how much it costs'." },
+            { id: 148, unit: 6, q: "I asked _____ she was feeling better.", options: ["that", "whether", "what", "which"], correct: 1, explain: "'Whether' for yes/no reported questions." },
+            { id: 149, unit: 6, q: "Can you tell me when _____?", options: ["does the train leave", "the train leaves", "leaves the train", "the train does leave"], correct: 1, explain: "Indirect: statement word order." },
+            { id: 150, unit: 6, q: "I wonder who _____ the window.", options: ["did break", "broke", "was break", "breaking"], correct: 1, explain: "'Who broke' - 'who' is subject, simple past." },
 
-            // Unit 7: Conditionals
-            {id: 61, unit: 7, q: "If it rains, I _____ at home.", options: ["will stay", "would stay", "stay", "stayed"], correct: 0, explain: "First conditional: real future possibility."},
-            {id: 62, unit: 7, q: "If I were rich, I _____ travel around the world.", options: ["would", "will", "can", "could"], correct: 0, explain: "Second conditional: hypothetical situation."},
-            {id: 63, unit: 7, q: "If you heat ice, it _____.", options: ["melts", "melted", "would melt", "will melt"], correct: 0, explain: "Zero conditional: general truth/fact."},
-            {id: 64, unit: 7, q: "If she had studied harder, she _____ the exam.", options: ["would have passed", "would pass", "will pass", "passes"], correct: 0, explain: "Third conditional: unreal past situation."},
-            {id: 65, unit: 7, q: "_____ I see you tomorrow?", options: ["Will", "Would", "Can", "Could"], correct: 0, explain: "'Will' for future arrangement."},
-            {id: 66, unit: 7, q: "If he _____ here, he would help us.", options: ["were", "was", "is", "will be"], correct: 0, explain: "Second conditional uses past subjunctive 'were' for all persons."},
-            {id: 67, unit: 7, q: "If I had known earlier, I _____ you.", options: ["would have told", "would tell", "will tell", "tell"], correct: 0, explain: "Third conditional: past unreal condition."},
-            {id: 68, unit: 7, q: "If you _____ me, I will be grateful.", options: ["help", "helped", "would help", "have helped"], correct: 0, explain: "First conditional: possible future situation."},
-            {id: 69, unit: 7, q: "Water _____ at 100°C.", options: ["boils", "boiled", "would boil", "will boil"], correct: 0, explain: "Zero conditional for scientific facts."},
-            {id: 70, unit: 7, q: "If I _____ you, I wouldn't do that.", options: ["were", "was", "am", "will be"], correct: 0, explain: "Second conditional with 'were' for hypothetical advice."},
+            // UNIT 7: Adverbs (Questions 151-175)
+            { id: 151, unit: 7, q: "She sings _____.", options: ["beautiful", "beauty", "beautifully", "beautify"], correct: 2, explain: "Adverb 'beautifully' modifies verb 'sings'." },
+            { id: 152, unit: 7, q: "He runs very _____.", options: ["quick", "quickly", "quicker", "quickest"], correct: 1, explain: "Adverb 'quickly' modifies verb 'runs'." },
+            { id: 153, unit: 7, q: "She speaks English _____.", options: ["fluent", "fluency", "fluently", "more fluent"], correct: 2, explain: "Adverb 'fluently' describes how she speaks." },
+            { id: 154, unit: 7, q: "The train arrived _____.", options: ["late", "lately", "later", "latest"], correct: 0, explain: "'Late' can be both adjective and adverb." },
+            { id: 155, unit: 7, q: "I have been _____ busy.", options: ["extreme", "extremely", "extremity", "extremeness"], correct: 1, explain: "Adverb 'extremely' modifies adjective 'busy'." },
+            { id: 156, unit: 7, q: "She _____ forgets her keys.", options: ["often", "oftenly", "more often", "most often"], correct: 0, explain: "'Often' is already an adverb (no 'oftenly')." },
+            { id: 157, unit: 7, q: "He works _____.", options: ["hard", "hardly", "harder", "hardest"], correct: 0, explain: "'Hard' as adverb = with effort. 'Hardly' = barely." },
+            { id: 158, unit: 7, q: "I can _____ hear you.", options: ["hard", "hardly", "harder", "hardest"], correct: 1, explain: "'Hardly' = barely, almost not." },
+            { id: 159, unit: 7, q: "She arrived _____ than expected.", options: ["early", "earlier", "earliest", "more early"], correct: 1, explain: "'Earlier' is comparative form of 'early'." },
+            { id: 160, unit: 7, q: "He behaved _____.", options: ["bad", "badly", "badder", "worse"], correct: 1, explain: "Adverb 'badly' modifies verb 'behaved'." },
+            { id: 161, unit: 7, q: "The children played _____.", options: ["happy", "happily", "happiness", "more happy"], correct: 1, explain: "Adverb 'happily' describes how they played." },
+            { id: 162, unit: 7, q: "I have _____ finished my work.", options: ["near", "nearly", "nearest", "nearer"], correct: 1, explain: "'Nearly' = almost, adverb modifying 'finished'." },
+            { id: 163, unit: 7, q: "She is _____ aware of the problem.", options: ["full", "fully", "fuller", "fullest"], correct: 1, explain: "Adverb 'fully' modifies adjective 'aware'." },
+            { id: 164, unit: 7, q: "He _____ comes to class on time.", options: ["rare", "rarely", "rarer", "rarest"], correct: 1, explain: "Adverb of frequency 'rarely' = not often." },
+            { id: 165, unit: 7, q: "The news spread _____.", options: ["quick", "quickly", "quicker", "quickest"], correct: 1, explain: "Adverb 'quickly' modifies verb 'spread'." },
+            { id: 166, unit: 7, q: "She looked at me _____.", options: ["angry", "angrily", "angrier", "angriest"], correct: 1, explain: "Adverb 'angrily' describes how she looked." },
+            { id: 167, unit: 7, q: "I _____ agree with you.", options: ["total", "totally", "totality", "totaling"], correct: 1, explain: "Adverb 'totally' modifies verb 'agree'." },
+            { id: 168, unit: 7, q: "He _____ ever watches TV.", options: ["hard", "hardly", "harder", "hardest"], correct: 1, explain: "'Hardly ever' = almost never." },
+            { id: 169, unit: 7, q: "She speaks _____ softly.", options: ["too", "to", "two", "very too"], correct: 0, explain: "'Too' (adverb of degree) modifies 'softly'." },
+            { id: 170, unit: 7, q: "He drove _____ and had an accident.", options: ["careless", "carelessly", "carelessness", "more careless"], correct: 1, explain: "Adverb 'carelessly' modifies verb 'drove'." },
+            { id: 171, unit: 7, q: "The food smells _____.", options: ["good", "well", "goodly", "better"], correct: 0, explain: "'Good' after sense verbs (smell, taste, look)." },
+            { id: 172, unit: 7, q: "She dances _____ than her sister.", options: ["graceful", "gracefully", "more gracefully", "most gracefully"], correct: 2, explain: "Comparative adverb: 'more gracefully'." },
+            { id: 173, unit: 7, q: "I _____ believe what he said.", options: ["scarce", "scarcely", "scarcer", "scarcest"], correct: 1, explain: "'Scarcely' = hardly, almost not." },
+            { id: 174, unit: 7, q: "He answered the question _____.", options: ["correct", "correctly", "correcting", "correction"], correct: 1, explain: "Adverb 'correctly' modifies verb 'answered'." },
+            { id: 175, unit: 7, q: "She _____ goes to the gym.", options: ["regular", "regularly", "more regular", "most regular"], correct: 1, explain: "Adverb 'regularly' indicates frequency." },
 
-            // Unit 8: Passive Voice
-            {id: 71, unit: 8, q: "The book _____ by Shakespeare.", options: ["was written", "wrote", "written", "is writing"], correct: 0, explain: "Passive voice: be + past participle."},
-            {id: 72, unit: 8, q: "Letters _____ every day.", options: ["are delivered", "deliver", "delivered", "have delivered"], correct: 0, explain: "Simple present passive for regular actions."},
-            {id: 73, unit: 8, q: "The meeting _____ by 3 PM.", options: ["will have been finished", "will finish", "finishes", "finished"], correct: 0, explain: "Future perfect passive for action completed by a time."},
-            {id: 74, unit: 8, q: "The window _____ by the boy.", options: ["was broken", "broke", "broken", "breaks"], correct: 0, explain: "Past passive for completed action."},
-            {id: 75, unit: 8, q: "English _____ all over the world.", options: ["is spoken", "speaks", "spoke", "spoken"], correct: 0, explain: "Present passive for general fact."},
-            {id: 76, unit: 8, q: "The project _____ next month.", options: ["will be completed", "completes", "completed", "is completing"], correct: 0, explain: "Future passive for planned action."},
-            {id: 77, unit: 8, q: "Mistakes _____ by him.", options: ["have been made", "made", "make", "are making"], correct: 0, explain: "Present perfect passive for recent action with result."},
-            {id: 78, unit: 8, q: "The house _____ when we arrived.", options: ["had been built", "built", "was building", "has built"], correct: 0, explain: "Past perfect passive for action before another past action."},
-            {id: 79, unit: 8, q: "Food _____ in the kitchen.", options: ["is cooked", "cooks", "cooked", "cooking"], correct: 0, explain: "Present passive for regular process."},
-            {id: 80, unit: 8, q: "The invitation cards _____ yet.", options: ["haven't been sent", "haven't sent", "didn't send", "aren't sending"], correct: 0, explain: "Present perfect passive negative for unfinished action."},
-
-            // Unit 9: Prepositions
-            {id: 81, unit: 9, q: "I was born _____ March.", options: ["in", "on", "at", "by"], correct: 0, explain: "Months use preposition 'in'."},
-            {id: 82, unit: 9, q: "The meeting is _____ 3 o'clock.", options: ["at", "on", "in", "by"], correct: 0, explain: "Specific times use 'at'."},
-            {id: 83, unit: 9, q: "We work _____ office.", options: ["in", "at", "on", "by"], correct: 0, explain: "Enclosed spaces use 'in'."},
-            {id: 84, unit: 9, q: "The book is _____ the table.", options: ["on", "in", "at", "under"], correct: 0, explain: "Surfaces use 'on'."},
-            {id: 85, unit: 9, q: "She is good _____ mathematics.", options: ["at", "in", "on", "with"], correct: 0, explain: "Skill/ability uses 'at'."},
-            {id: 86, unit: 9, q: "He is interested _____ music.", options: ["in", "at", "on", "with"], correct: 0, explain: "Interest uses 'in'."},
-            {id: 87, unit: 9, q: "They arrived _____ the airport.", options: ["at", "in", "on", "to"], correct: 0, explain: "Points/places use 'at'."},
-            {id: 88, unit: 9, q: "The cat jumped _____ the wall.", options: ["over", "across", "through", "above"], correct: 0, explain: "Movement over something uses 'over'."},
-            {id: 89, unit: 9, q: "We walked _____ the bridge.", options: ["across", "over", "through", "under"], correct: 0, explain: "Surface movement uses 'across'."},
-            {id: 90, unit: 9, q: "She is afraid _____ snakes.", options: ["of", "from", "with", "to"], correct: 0, explain: "Fear uses 'of'."},
-
-            // Unit 10: Adjective Order
-            {id: 91, unit: 10, q: "Which is the correct order?", options: ["Beautiful old Italian painting", "Italian beautiful old painting", "Old beautiful Italian painting", "Painting beautiful old Italian"], correct: 0, explain: "Order: Opinion, Age, Origin."},
-            {id: 92, unit: 10, q: "Choose the correct sequence:", options: ["Small round red ball", "Red small round ball", "Round small red ball", "Ball small round red"], correct: 0, explain: "Order: Size, Shape, Color."},
-            {id: 93, unit: 10, q: "Correct adjective order:", options: ["Lovely little old wooden house", "Wooden lovely little old house", "Little lovely old wooden house", "Old lovely little wooden house"], correct: 0, explain: "Order: Opinion, Size, Age, Material."},
-            {id: 94, unit: 10, q: "Arrange properly:", options: ["Big blue Chinese silk scarf", "Chinese big blue silk scarf", "Silk big blue Chinese scarf", "Blue big Chinese silk scarf"], correct: 0, explain: "Order: Size, Color, Origin, Material."},
-            {id: 95, unit: 10, q: "Which follows correct order?", options: ["Expensive antique French silver ring", "Silver expensive antique French ring", "French expensive antique silver ring", "Antique expensive French silver ring"], correct: 0, explain: "Order: Price, Age, Origin, Material."},
-            {id: 96, unit: 10, q: "Correct sequence:", options: ["Large rectangular green garden table", "Green large rectangular garden table", "Rectangular large green garden table", "Garden large rectangular green table"], correct: 0, explain: "Order: Size, Shape, Color, Purpose."},
-            {id: 97, unit: 10, q: "Proper order:", options: ["Delicious hot Indian curry", "Indian delicious hot curry", "Hot delicious Indian curry", "Curry delicious hot Indian"], correct: 0, explain: "Order: Opinion, Temperature, Origin."},
-            {id: 98, unit: 10, q: "Right sequence:", options: ["Modern white plastic chair", "White modern plastic chair", "Plastic modern white chair", "Chair modern white plastic"], correct: 0, explain: "Order: Age, Color, Material."},
-            {id: 99, unit: 10, q: "Correct arrangement:", options: ["Tiny cute pink baby dress", "Pink tiny cute baby dress", "Baby tiny cute pink dress", "Cute tiny pink baby dress"], correct: 0, explain: "Order: Size, Opinion, Color, Purpose."},
-            {id: 100, unit: 10, q: "Proper order:", options: ["New black leather jacket", "Leather new black jacket", "Black new leather jacket", "Jacket new black leather"], correct: 0, explain: "Order: Age, Color, Material."},
-
-            // Unit 11: Used to / Be used to
-            {id: 101, unit: 11, q: "I _____ smoke, but I quit last year.", options: ["used to", "am used to", "get used to", "was used to"], correct: 0, explain: "'Used to' for past habit no longer continuing."},
-            {id: 102, unit: 11, q: "She _____ working late hours.", options: ["is used to", "used to", "gets used to", "got used to"], correct: 0, explain: "'Be used to' for being accustomed to something."},
-            {id: 103, unit: 11, q: "He _____ the noise after living near the airport for months.", options: ["got used to", "used to", "is used to", "was used to"], correct: 0, explain: "'Get used to' for process of becoming accustomed."},
-            {id: 104, unit: 11, q: "_____ you play football when you were young?", options: ["Did", "Were", "Are", "Do"], correct: 0, explain: "'Used to' in question form starts with 'Did'."},
-            {id: 105, unit: 11, q: "They _____ live in Kathmandu, but now they reside in Pokhara.", options: ["used to", "are used to", "get used to", "were used to"], correct: 0, explain: "'Used to' for past state no longer true."},
-            {id: 106, unit: 11, q: "I'm not _____ the cold weather yet.", options: ["used to", "using to", "use to", "used for"], correct: 0, explain: "'Be used to' for current state of being accustomed."},
-            {id: 107, unit: 11, q: "It took her a while to _____ the new job.", options: ["get used to", "used to", "be used to", "was used to"], correct: 0, explain: "'Get used to' for gradual adaptation process."},
-            {id: 108, unit: 11, q: "_____ you drive on the left side of the road?", options: ["Are", "Do", "Did", "Were"], correct: 0, explain: "'Be used to' in question form."},
-            {id: 109, unit: 11, q: "We _____ this kind of food when we visited India.", options: ["weren't used to", "didn't use to", "don't use to", "aren't used to"], correct: 0, explain: "Negative 'be used to' for past unfamiliarity."},
-            {id: 110, unit: 11, q: "Children quickly _____ new technologies.", options: ["get used to", "used to", "are used to", "got used to"], correct: 0, explain: "'Get used to' for quick adaptation process."},
-
-            // Additional questions for remaining units (12-20) would follow the same pattern
-            // For brevity, I'll include a few samples for writing units
-            
-            // Unit 12: Email Writing
-            {id: 111, unit: 12, q: "What should be the first line of a formal email?", options: ["Subject Line", "Dear Sir/Madam", "Introduction", "Body"], correct: 0, explain: "Subject line appears first to summarize the email content."},
-            {id: 112, unit: 12, q: "Which closing is appropriate for a formal email?", options: ["Best regards", "Cheers", "Love", "Later"], correct: 0, explain: "'Best regards' is professional and suitable for formal emails."},
-            
-            // Unit 13: Speech Writing
-            {id: 113, unit: 13, q: "What is the opening part of a speech called?", options: ["Greeting", "Introduction", "Topic Statement", "All of above"], correct: 3, explain: "Speech begins with greeting audience and introducing topic."},
-            {id: 114, unit: 13, q: "What should conclude a speech?", options: ["Call to Action", "Thank You", "Summary", "All of above"], correct: 3, explain: "Effective speeches end with thank you and clear conclusion."},
-            
-            // More questions would continue for all units...
+            // UNIT 8: Adjectives (Questions 176-200)
+            { id: 176, unit: 8, q: "This is the _____ book I've ever read.", options: ["more interesting", "most interesting", "interestingly", "interested"], correct: 1, explain: "'Most interesting' is superlative for long adjectives." },
+            { id: 177, unit: 8, q: "She is _____ than her sister.", options: ["tall", "taller", "tallest", "more tall"], correct: 1, explain: "'Taller' is comparative for short adjectives." },
+            { id: 178, unit: 8, q: "This problem is _____ than I thought.", options: ["more difficult", "most difficult", "difficulter", "difficultly"], correct: 0, explain: "'More difficult' - use 'more' with long adjectives." },
+            { id: 179, unit: 8, q: "He is the _____ player in the team.", options: ["good", "better", "best", "well"], correct: 2, explain: "Superlative of 'good' is 'best'." },
+            { id: 180, unit: 8, q: "My bag is as _____ as yours.", options: ["heavy", "heavier", "heaviest", "more heavy"], correct: 0, explain: "'As...as' uses base form of adjective." },
+            { id: 181, unit: 8, q: "The movie was very _____.", options: ["bored", "boring", "bore", "boringly"], correct: 1, explain: "'Boring' describes the movie (thing causing boredom)." },
+            { id: 182, unit: 8, q: "I am _____ in this topic.", options: ["interest", "interesting", "interested", "interestingly"], correct: 2, explain: "'Interested' describes person's feeling." },
+            { id: 183, unit: 8, q: "This is _____ than that.", options: ["expensiver", "more expensive", "most expensive", "expensively"], correct: 1, explain: "'More expensive' - comparative for long adjectives." },
+            { id: 184, unit: 8, q: "She looks _____ today.", options: ["happily", "happiness", "happy", "happier"], correct: 2, explain: "'Look' + adjective (not adverb)." },
+            { id: 185, unit: 8, q: "The situation is getting _____.", options: ["bad", "worse", "worst", "badly"], correct: 1, explain: "'Worse' is comparative of 'bad'." },
+            { id: 186, unit: 8, q: "He is the _____ of the two brothers.", options: ["elder", "eldest", "older", "oldest"], correct: 0, explain: "'Elder' used for comparison of two family members." },
+            { id: 187, unit: 8, q: "This is the _____ building in the city.", options: ["old", "older", "oldest", "elder"], correct: 2, explain: "'Oldest' is superlative for general comparisons." },
+            { id: 188, unit: 8, q: "The news was _____.", options: ["shocked", "shocking", "shockingly", "shock"], correct: 1, explain: "'Shocking' describes the news (cause of shock)." },
+            { id: 189, unit: 8, q: "She is _____ tired to work.", options: ["to", "too", "so", "very"], correct: 1, explain: "'Too' + adjective + to infinitive." },
+            { id: 190, unit: 8, q: "He is _____ honest to cheat.", options: ["to", "too", "so", "very"], correct: 1, explain: "'Too honest' = so honest that he won't cheat." },
+            { id: 191, unit: 8, q: "This is a _____ movie.", options: ["three-hours", "three-hour", "three hour's", "three hours'"], correct: 1, explain: "Hyphenated adjective: 'three-hour' (no 's')." },
+            { id: 192, unit: 8, q: "The _____ man crossed the road.", options: ["blind old", "old blind", "older blind", "blind older"], correct: 1, explain: "Order: age (old) before origin/type (blind)." },
+            { id: 193, unit: 8, q: "She is much _____ than before.", options: ["better", "best", "good", "well"], correct: 0, explain: "'Much better' - 'much' intensifies comparative." },
+            { id: 194, unit: 8, q: "This exercise is _____ difficult.", options: ["fairly", "fair", "fairer", "fairest"], correct: 0, explain: "'Fairly' (adverb) modifies adjective 'difficult'." },
+            { id: 195, unit: 8, q: "I am _____ by the results.", options: ["amazing", "amazed", "amazingly", "amaze"], correct: 1, explain: "'Amazed' - person's feeling/reaction." },
+            { id: 196, unit: 8, q: "The _____ the better.", options: ["soon", "sooner", "soonest", "more soon"], correct: 1, explain: "'The sooner, the better' - comparative pattern." },
+            { id: 197, unit: 8, q: "He is _____ cleverer than me.", options: ["very", "much", "more", "most"], correct: 1, explain: "'Much' (not 'very') intensifies comparatives." },
+            { id: 198, unit: 8, q: "This is the _____ of all options.", options: ["worse", "worst", "bad", "badly"], correct: 1, explain: "'Worst' is superlative of 'bad'." },
+            { id: 199, unit: 8, q: "She is _____ beautiful girl I know.", options: ["more", "most", "the most", "the more"], correct: 2, explain: "'The most' + adjective for superlative." },
+            { id: 200, unit: 8, q: "It was an _____ experience.", options: ["excited", "exciting", "excitedly", "excite"], correct: 1, explain: "'Exciting' describes the experience." }
         ];
 
-        // Application State
-        let currentState = {
-            currentTab: 'grammarTab',
-            currentQuestionIndex: 0,
-            selectedOption: null,
-            showAnswerClicked: false,
-            dailyProgress: 0,
-            totalScore: 0,
-            incorrectAnswers: 0,
-            unitStats: {},
-            lastActiveDate: new Date().toDateString()
+        // ============================================
+        // LOCAL STORAGE FUNCTIONS
+        // ============================================
+        const STORAGE_KEYS = {
+            DAILY_PROGRESS: 'gm_daily_progress',
+            DAILY_DATE: 'gm_daily_date',
+            TOTAL_SCORE: 'gm_total_score',
+            QUESTIONS_ANSWERED: 'gm_questions_answered',
+            ANSWERED_IDS: 'gm_answered_ids',
+            UNIT_PROGRESS: 'gm_unit_progress',
+            CURRENT_INDEX: 'gm_current_index'
         };
 
-        // DOM Elements
-        const tabs = {
-            grammar: document.getElementById('grammarTab'),
-            writing: document.getElementById('writingTab'),
-            practice: document.getElementById('practiceTab'),
-            stats: document.getElementById('statsTab')
-        };
-
-        const navItems = document.querySelectorAll('.nav-item');
-        const dailyProgressEl = document.getElementById('dailyProgress');
-        const dailyGoalBadge = document.getElementById('dailyGoalBadge');
-
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', function() {
-            loadState();
-            renderGrammarGuide();
-            renderWritingGuide();
-            setupNavigation();
-            showTab(currentState.currentTab);
-            updateStatsDisplay();
-            loadQuestion();
-        });
-
-        // Navigation Functions
-        function setupNavigation() {
-            navItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
-                    showTab(tabId);
-                });
-            });
-        }
-
-        function showTab(tabId) {
-            // Hide all tabs
-            Object.values(tabs).forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Remove active class from all nav items
-            navItems.forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Show selected tab
-            document.getElementById(tabId).classList.add('active');
-            
-            // Set active nav item
-            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
-            
-            currentState.currentTab = tabId;
-            
-            // Special handling for practice tab
-            if (tabId === 'practiceTab') {
-                loadQuestion();
+        function saveToStorage(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+            } catch (e) {
+                console.error('Storage error:', e);
             }
         }
 
-        // State Management
-        function loadState() {
-            const savedState = localStorage.getItem('englishMasterState');
-            if (savedState) {
-                const parsedState = JSON.parse(savedState);
-                currentState = {...currentState, ...parsedState};
-                
-                // Check if date changed for daily progress reset
-                const today = new Date().toDateString();
-                if (currentState.lastActiveDate !== today) {
-                    currentState.dailyProgress = 0;
-                    currentState.lastActiveDate = today;
-                    saveState();
-                }
+        function getFromStorage(key, defaultValue) {
+            try {
+                const item = localStorage.getItem(key);
+                return item ? JSON.parse(item) : defaultValue;
+            } catch (e) {
+                return defaultValue;
             }
         }
 
-        function saveState() {
-            localStorage.setItem('englishMasterState', JSON.stringify(currentState));
+        function getTodayDate() {
+            return new Date().toISOString().split('T')[0];
         }
 
-        // Grammar Guide Functions
-        function renderGrammarGuide() {
-            const container = document.querySelector('#grammarTab .grid');
-            container.innerHTML = '';
+        function checkAndResetDailyGoal() {
+            const savedDate = getFromStorage(STORAGE_KEYS.DAILY_DATE, '');
+            const today = getTodayDate();
             
-            const grammarUnits = units.filter(unit => unit.category === 'Grammar');
-            
-            grammarUnits.forEach(unit => {
-                const card = document.createElement('div');
-                card.className = 'unit-card card bg-white p-5 slide-in';
-                card.innerHTML = `
-                    <div class="flex items-start">
-                        <div class="bg-blue-100 text-blue-800 w-8 h-8 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                            ${unit.id}
-                        </div>
-                        <div>
-                            <h3 class="font-bold">${unit.title}</h3>
-                            <p class="text-sm text-gray-600 mt-1">Tap to view rules and examples</p>
-                        </div>
-                    </div>
-                `;
-                
-                card.addEventListener('click', () => showGrammarDetail(unit.id));
-                container.appendChild(card);
-            });
+            if (savedDate !== today) {
+                saveToStorage(STORAGE_KEYS.DAILY_PROGRESS, 0);
+                saveToStorage(STORAGE_KEYS.DAILY_DATE, today);
+            }
         }
 
-        function showGrammarDetail(unitId) {
-            const content = grammarContent[unitId];
-            if (!content) return;
+        function incrementDailyProgress() {
+            let progress = getFromStorage(STORAGE_KEYS.DAILY_PROGRESS, 0);
+            progress++;
+            saveToStorage(STORAGE_KEYS.DAILY_PROGRESS, progress);
             
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50';
-            modal.innerHTML = `
-                <div class="card bg-white w-full max-w-md max-h-[80vh] overflow-y-auto">
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-xl font-bold">${content.title}</h3>
-                            <button class="close-modal text-gray-500 hover:text-gray-700">
-                                <span class="material-icons">close</span>
-                            </button>
-                        </div>
-                        
-                        <div class="mb-5">
-                            <h4 class="font-semibold mb-2">Rules:</h4>
-                            <ul class="list-disc pl-5 space-y-1">
-                                ${content.rules.map(rule => `<li>${rule}</li>`).join('')}
-                            </ul>
-                        </div>
-                        
-                        <div>
-                            <h4 class="font-semibold mb-2">Examples:</h4>
-                            <ul class="list-disc pl-5 space-y-1">
-                                ${content.examples.map(example => `<li>${example}</li>`).join('')}
-                            </ul>
-                        </div>
-                        
-                        <button class="btn-primary w-full mt-6 close-modal">Close</button>
-                    </div>
-                </div>
-            `;
+            if (progress === 20) {
+                showMilestonePopup();
+            }
             
-            document.body.appendChild(modal);
-            
-            modal.querySelectorAll('.close-modal').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.body.removeChild(modal);
-                });
-            });
+            return progress;
         }
 
-        // Writing Guide Functions
-        function renderWritingGuide() {
-            const container = document.querySelector('#writingTab .grid');
-            container.innerHTML = '';
-            
-            const writingUnits = units.filter(unit => unit.category === 'Writing');
-            
-            writingUnits.forEach(unit => {
-                const card = document.createElement('div');
-                card.className = 'unit-card card bg-white p-5 slide-in';
-                card.innerHTML = `
-                    <div class="flex items-start">
-                        <div class="bg-blue-100 text-blue-800 w-8 h-8 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                            ${unit.id}
-                        </div>
-                        <div>
-                            <h3 class="font-bold">${unit.title}</h3>
-                            <p class="text-sm text-gray-600 mt-1">Tap to view format and sample</p>
-                        </div>
-                    </div>
-                `;
-                
-                card.addEventListener('click', () => showWritingDetail(unit.id));
-                container.appendChild(card);
-            });
+        function incrementTotalScore() {
+            let score = getFromStorage(STORAGE_KEYS.TOTAL_SCORE, 0);
+            score++;
+            saveToStorage(STORAGE_KEYS.TOTAL_SCORE, score);
+            return score;
         }
 
-        function showWritingDetail(unitId) {
-            const content = writingContent[unitId];
-            if (!content) return;
-            
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50';
-            modal.innerHTML = `
-                <div class="card bg-white w-full max-w-md max-h-[80vh] overflow-y-auto">
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-xl font-bold">${content.title}</h3>
-                            <button class="close-modal text-gray-500 hover:text-gray-700">
-                                <span class="material-icons">close</span>
-                            </button>
-                        </div>
-                        
-                        <div class="mb-5">
-                            <h4 class="font-semibold mb-2">Format:</h4>
-                            <pre class="bg-gray-100 p-3 rounded text-sm whitespace-pre-wrap">${content.format}</pre>
-                        </div>
-                        
-                        <div>
-                            <h4 class="font-semibold mb-2">Sample:</h4>
-                            <pre class="bg-gray-100 p-3 rounded text-sm whitespace-pre-wrap">${content.sample}</pre>
-                        </div>
-                        
-                        <button class="btn-primary w-full mt-6 close-modal">Close</button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-            
-            modal.querySelectorAll('.close-modal').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.body.removeChild(modal);
-                });
-            });
+        function incrementQuestionsAnswered() {
+            let count = getFromStorage(STORAGE_KEYS.QUESTIONS_ANSWERED, 0);
+            count++;
+            saveToStorage(STORAGE_KEYS.QUESTIONS_ANSWERED, count);
+            return count;
         }
 
-        // Practice Functions
-        function loadQuestion() {
-            if (questionBank.length === 0) return;
-            
-            const question = questionBank[currentState.currentQuestionIndex];
-            document.getElementById('currentUnit').textContent = question.unit;
-            document.getElementById('currentQuestion').textContent = currentState.currentQuestionIndex + 1;
-            document.getElementById('totalQuestions').textContent = questionBank.length;
-            document.getElementById('questionText').textContent = question.q;
-            
-            const optionsContainer = document.getElementById('optionsContainer');
-            optionsContainer.innerHTML = '';
-            
-            question.options.forEach((option, index) => {
-                const button = document.createElement('button');
-                button.className = 'option-btn w-full';
-                button.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
-                button.addEventListener('click', () => selectOption(index, button));
-                optionsContainer.appendChild(button);
-            });
-            
-            // Reset UI state
-            document.getElementById('explanationSection').classList.add('hidden');
-            document.getElementById('showAnswerBtn').classList.remove('hidden');
-            document.getElementById('nextQuestionBtn').classList.add('hidden');
-            currentState.selectedOption = null;
-            currentState.showAnswerClicked = false;
-            
-            // Update progress
-            updateProgressDisplay();
+        function markQuestionAnswered(id) {
+            let answered = getFromStorage(STORAGE_KEYS.ANSWERED_IDS, []);
+            if (!answered.includes(id)) {
+                answered.push(id);
+                saveToStorage(STORAGE_KEYS.ANSWERED_IDS, answered);
+            }
         }
 
-        function selectOption(optionIndex, buttonElement) {
-            if (currentState.showAnswerClicked) return;
+        function getUnansweredQuestions(unitId = null) {
+            const answered = getFromStorage(STORAGE_KEYS.ANSWERED_IDS, []);
+            let questions = questionBank.filter(q => !answered.includes(q.id));
             
-            // Clear previous selections
-            document.querySelectorAll('.option-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
+            if (unitId) {
+                questions = questions.filter(q => q.unit === unitId);
+            }
             
-            // Mark selected option
-            buttonElement.classList.add('selected');
-            currentState.selectedOption = optionIndex;
-            
-            // Check answer immediately
-            checkAnswer(optionIndex);
+            return questions;
         }
 
-        function checkAnswer(selectedOption) {
-            const question = questionBank[currentState.currentQuestionIndex];
-            const isCorrect = selectedOption === question.correct;
+        function updateUnitProgress(unitId) {
+            let unitProgress = getFromStorage(STORAGE_KEYS.UNIT_PROGRESS, {});
+            unitProgress[unitId] = (unitProgress[unitId] || 0) + 1;
+            saveToStorage(STORAGE_KEYS.UNIT_PROGRESS, unitProgress);
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress?')) {
+                Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
+                location.reload();
+            }
+        }
+
+        // ============================================
+        // UI UPDATE FUNCTIONS
+        // ============================================
+        function updateDashboardStats() {
+            const dailyProgress = getFromStorage(STORAGE_KEYS.DAILY_PROGRESS, 0);
+            const totalScore = getFromStorage(STORAGE_KEYS.TOTAL_SCORE, 0);
+            const questionsAnswered = getFromStorage(STORAGE_KEYS.QUESTIONS_ANSWERED, 0);
             
-            // Highlight correct/incorrect answers
-            const optionButtons = document.querySelectorAll('.option-btn');
-            optionButtons.forEach((btn, index) => {
-                if (index === question.correct) {
-                    btn.classList.add('correct');
-                } else if (index === selectedOption && !isCorrect) {
-                    btn.classList.add('incorrect');
-                }
-            });
+            document.getElementById('daily-progress').textContent = dailyProgress;
+            document.getElementById('total-score').textContent = totalScore;
+            document.getElementById('questions-answered').textContent = questionsAnswered;
             
-            // Update stats
-            if (isCorrect) {
-                currentState.totalScore += 1;
+            const progressPercent = Math.min((dailyProgress / 20) * 100, 100);
+            document.getElementById('daily-progress-bar').style.width = progressPercent + '%';
+            
+            if (dailyProgress >= 20) {
+                document.getElementById('daily-message').textContent = '🎉 Daily goal achieved!';
             } else {
-                currentState.incorrectAnswers += 1;
+                document.getElementById('daily-message').textContent = `${20 - dailyProgress} more to reach your goal!`;
+            }
+        }
+
+        function renderUnitsGrid() {
+            const grid = document.getElementById('units-grid');
+            const unitProgress = getFromStorage(STORAGE_KEYS.UNIT_PROGRESS, {});
+            
+            grid.innerHTML = units.map(unit => {
+                const progress = unitProgress[unit.id] || 0;
+                const totalInUnit = questionBank.filter(q => q.unit === unit.id).length;
+                const isCompleted = progress >= totalInUnit;
+                
+                return `
+                    <div class="unit-card ${isCompleted ? 'completed' : ''}" onclick="openUnit(${unit.id})">
+                        <div class="unit-badge">✓</div>
+                        <div class="unit-number">Unit ${unit.id}</div>
+                        <div class="unit-name">${unit.icon} ${unit.name}</div>
+                        <div class="unit-progress">${progress}/${totalInUnit} done</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ============================================
+        // SCREEN NAVIGATION
+        // ============================================
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId + '-screen').classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelector(`.nav-item[data-screen="${screenId}"]`)?.classList.add('active');
+            
+            if (screenId === 'dashboard') {
+                updateDashboardStats();
+                renderUnitsGrid();
+            }
+        }
+
+        // ============================================
+        // LEARN MODE
+        // ============================================
+        function openUnit(unitId) {
+            const unit = units.find(u => u.id === unitId);
+            const content = studyContent[unitId];
+            
+            if (!content) {
+                alert('Content coming soon!');
+                return;
             }
             
-            // Update daily progress
-            currentState.dailyProgress += 1;
-            updateDailyProgressUI();
+            const studyHtml = `
+                <div class="study-card">
+                    <div class="study-card-header">
+                        <div class="study-icon">${unit.icon}</div>
+                        <div class="study-title">
+                            <h2>Unit ${unitId}: ${unit.name}</h2>
+                            <p>Study the rule, then practice</p>
+                        </div>
+                    </div>
+                    
+                    <div class="rule-box">
+                        <h3>📖 Grammar Rule</h3>
+                        <p>${content.rule}</p>
+                    </div>
+                    
+                    <div class="examples-section">
+                        <h4>📝 Examples</h4>
+                        ${content.examples.map(ex => `
+                            <div class="example-item">
+                                <span class="example-label ${ex.type}">${ex.type === 'correct' ? '✓ Correct' : '✗ Incorrect'}</span>
+                                ${ex.text}
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <button class="start-practice-btn" onclick="startPractice(${unitId})">
+                        ✏️ Start Practice
+                    </button>
+                </div>
+            `;
             
-            // Show explanation
-            document.getElementById('explanationText').textContent = question.explain;
-            document.getElementById('explanationSection').classList.remove('hidden');
+            document.getElementById('study-content').innerHTML = studyHtml;
+            showScreen('learn');
+        }
+
+        // ============================================
+        // PRACTICE MODE
+        // ============================================
+        let currentQuiz = {
+            questions: [],
+            currentIndex: 0,
+            score: 0,
+            unitId: null
+        };
+
+        function startPractice(unitId) {
+            currentQuiz.unitId = unitId;
+            currentQuiz.questions = shuffleArray(getUnansweredQuestions(unitId)).slice(0, 25);
+            currentQuiz.currentIndex = 0;
+            currentQuiz.score = 0;
             
-            // Show next button
-            document.getElementById('showAnswerBtn').classList.add('hidden');
-            document.getElementById('nextQuestionBtn').classList.remove('hidden');
+            if (currentQuiz.questions.length === 0) {
+                alert('You have completed all questions for this unit! 🎉');
+                showScreen('dashboard');
+                return;
+            }
             
-            currentState.showAnswerClicked = true;
-            saveState();
-            updateStatsDisplay();
+            document.getElementById('total-q-num').textContent = currentQuiz.questions.length;
+            showScreen('practice');
+            renderQuestion();
+        }
+
+        function startRandomPractice() {
+            currentQuiz.unitId = null;
+            currentQuiz.questions = shuffleArray(getUnansweredQuestions()).slice(0, 25);
+            currentQuiz.currentIndex = 0;
+            currentQuiz.score = 0;
+            
+            if (currentQuiz.questions.length === 0) {
+                alert('Congratulations! You have completed all 500 questions! 🎉');
+                showScreen('dashboard');
+                return;
+            }
+            
+            document.getElementById('total-q-num').textContent = currentQuiz.questions.length;
+            showScreen('practice');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = currentQuiz.questions[currentQuiz.currentIndex];
+            const unitName = units.find(u => u.id === q.unit)?.name || '';
+            
+            document.getElementById('current-q-num').textContent = currentQuiz.currentIndex + 1;
+            document.getElementById('session-score').textContent = currentQuiz.score;
+            
+            const quizHtml = `
+                <div class="question-card">
+                    <span class="question-unit-tag">Unit ${q.unit}: ${unitName}</span>
+                    <p class="question-text">${q.q}</p>
+                    <div class="options-list">
+                        ${q.options.map((opt, i) => `
+                            <button class="option-btn" data-index="${i}" onclick="selectOption(${i})">
+                                <span class="option-letter">${String.fromCharCode(65 + i)}</span>
+                                <span>${opt}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <button class="show-answer-btn" onclick="showAnswer()">
+                        💡 Show Answer
+                    </button>
+                    <div class="explanation-box" id="explanation-box">
+                        <h4>💡 Explanation</h4>
+                        <p>${q.explain}</p>
+                    </div>
+                </div>
+                <button class="next-btn" id="next-btn" onclick="nextQuestion()">
+                    Continue →
+                </button>
+            `;
+            
+            document.getElementById('quiz-content').innerHTML = quizHtml;
+        }
+
+        function selectOption(index) {
+            const q = currentQuiz.questions[currentQuiz.currentIndex];
+            const options = document.querySelectorAll('.option-btn');
+            const showAnswerBtn = document.querySelector('.show-answer-btn');
+            
+            options.forEach(opt => opt.disabled = true);
+            showAnswerBtn.style.display = 'none';
+            
+            if (index === q.correct) {
+                options[index].classList.add('correct');
+                currentQuiz.score++;
+                incrementTotalScore();
+            } else {
+                options[index].classList.add('wrong');
+                options[q.correct].classList.add('correct');
+            }
+            
+            markQuestionAnswered(q.id);
+            incrementQuestionsAnswered();
+            incrementDailyProgress();
+            updateUnitProgress(q.unit);
+            
+            document.getElementById('session-score').textContent = currentQuiz.score;
+            document.getElementById('explanation-box').classList.add('show');
+            document.getElementById('next-btn').classList.add('show');
         }
 
         function showAnswer() {
-            const question = questionBank[currentState.currentQuestionIndex];
+            const q = currentQuiz.questions[currentQuiz.currentIndex];
+            const options = document.querySelectorAll('.option-btn');
+            const showAnswerBtn = document.querySelector('.show-answer-btn');
             
-            // Highlight correct answer
-            const optionButtons = document.querySelectorAll('.option-btn');
-            optionButtons.forEach((btn, index) => {
-                if (index === question.correct) {
-                    btn.classList.add('correct');
-                }
-            });
+            options.forEach(opt => opt.disabled = true);
+            showAnswerBtn.style.display = 'none';
             
-            // Show explanation
-            document.getElementById('explanationText').textContent = question.explain;
-            document.getElementById('explanationSection').classList.remove('hidden');
+            options[q.correct].classList.add('correct');
             
-            // Show next button
-            document.getElementById('showAnswerBtn').classList.add('hidden');
-            document.getElementById('nextQuestionBtn').classList.remove('hidden');
+            markQuestionAnswered(q.id);
+            incrementQuestionsAnswered();
+            incrementDailyProgress();
+            updateUnitProgress(q.unit);
             
-            currentState.showAnswerClicked = true;
+            document.getElementById('explanation-box').classList.add('show');
+            document.getElementById('next-btn').classList.add('show');
         }
 
         function nextQuestion() {
-            currentState.currentQuestionIndex = (currentState.currentQuestionIndex + 1) % questionBank.length;
-            saveState();
-            loadQuestion();
-        }
-
-        // Event Listeners for Practice Tab
-        document.getElementById('showAnswerBtn').addEventListener('click', showAnswer);
-        document.getElementById('nextQuestionBtn').addEventListener('click', nextQuestion);
-
-        // Stats Functions
-        function updateStatsDisplay() {
-            document.getElementById('totalScore').textContent = currentState.totalScore;
-            document.getElementById('incorrectCount').textContent = currentState.incorrectAnswers;
-            document.getElementById('todaySolved').textContent = currentState.dailyProgress;
+            currentQuiz.currentIndex++;
             
-            // Update daily progress bar
-            const progressPercent = Math.min(100, (currentState.dailyProgress / 20) * 100);
-            document.getElementById('dailyProgressbar').style.width = `${progressPercent}%`;
-            
-            // Show daily goal badge if met
-            if (currentState.dailyProgress >= 20) {
-                dailyGoalBadge.classList.remove('hidden');
+            if (currentQuiz.currentIndex >= currentQuiz.questions.length) {
+                showQuizComplete();
             } else {
-                dailyGoalBadge.classList.add('hidden');
+                renderQuestion();
             }
-            
-            // Update unit stats
-            renderUnitStats();
         }
 
-        function renderUnitStats() {
-            const container = document.getElementById('unitStatsContainer');
-            container.innerHTML = '';
+        function showQuizComplete() {
+            const percentage = Math.round((currentQuiz.score / currentQuiz.questions.length) * 100);
             
-            // Create stats object if it doesn't exist
-            if (!currentState.unitStats) {
-                currentState.unitStats = {};
-            }
-            
-            // Calculate stats per unit
-            const unitStats = {};
-            questionBank.forEach(q => {
-                if (!unitStats[q.unit]) {
-                    unitStats[q.unit] = { total: 0, correct: 0 };
-                }
-                unitStats[q.unit].total++;
-                
-                // We don't have individual question tracking in this implementation
-                // In a full app, we'd track which questions were answered correctly
-            });
-            
-            // Display stats for each unit
-            units.forEach(unit => {
-                const stats = unitStats[unit.id] || { total: 0, correct: 0 };
-                const percentage = stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
-                
-                const statItem = document.createElement('div');
-                statItem.className = 'flex items-center justify-between py-3 border-b border-gray-100';
-                statItem.innerHTML = `
-                    <div class="flex items-center">
-                        <div class="bg-blue-100 text-blue-800 w-8 h-8 rounded-full flex items-center justify-center mr-3">
-                            ${unit.id}
-                        </div>
-                        <span>${unit.title}</span>
+            document.getElementById('quiz-content').innerHTML = `
+                <div class="question-card text-center">
+                    <div class="stat-icon" style="font-size: 60px;">🎉</div>
+                    <h2 style="margin: 20px 0;">Quiz Complete!</h2>
+                    <p style="font-size: 32px; font-weight: bold; color: var(--accent-blue);">
+                        ${currentQuiz.score}/${currentQuiz.questions.length}
+                    </p>
+                    <p style="color: var(--text-secondary); margin: 10px 0;">
+                        ${percentage}% Correct
+                    </p>
+                    <div style="margin-top: 30px;">
+                        <button class="start-practice-btn" onclick="showScreen('dashboard')">
+                            🏠 Back to Dashboard
+                        </button>
                     </div>
-                    <div class="text-right">
-                        <div class="text-sm text-gray-500">${stats.correct}/${stats.total}</div>
-                        <div class="text-sm">${percentage}%</div>
-                    </div>
-                `;
-                
-                container.appendChild(statItem);
-            });
+                </div>
+            `;
         }
 
-        // Progress Functions
-        function updateProgressDisplay() {
-            const solved = currentState.currentQuestionIndex;
-            const total = questionBank.length;
-            const percent = total > 0 ? Math.round((solved / total) * 100) : 0;
-            
-            document.getElementById('solvedCount').textContent = solved;
-            document.getElementById('totalCount').textContent = total;
-            document.getElementById('progressPercent').textContent = `${percent}%`;
-            
-            // Update progress circle
-            const progressCircle = document.getElementById('progressCircle');
-            const circumference = 2 * Math.PI * 15.9155;
-            const offset = circumference - (percent / 100) * circumference;
-            progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-            progressCircle.style.strokeDashoffset = offset;
+        // ============================================
+        // MILESTONE POPUP
+        // ============================================
+        function showMilestonePopup() {
+            document.getElementById('milestone-popup').classList.add('show');
         }
 
-        function updateDailyProgressUI() {
-            dailyProgressEl.textContent = `${currentState.dailyProgress}/20`;
+        function closePopup() {
+            document.getElementById('milestone-popup').classList.remove('show');
+        }
+
+        function showStats() {
+            const totalScore = getFromStorage(STORAGE_KEYS.TOTAL_SCORE, 0);
+            const questionsAnswered = getFromStorage(STORAGE_KEYS.QUESTIONS_ANSWERED, 0);
+            const accuracy = questionsAnswered > 0 ? Math.round((totalScore / questionsAnswered) * 100) : 0;
             
-            // Update daily progress bar
-            const progressPercent = Math.min(100, (currentState.dailyProgress / 20) * 100);
-            document.getElementById('dailyProgressbar').style.width = `${progressPercent}%`;
-            
-            // Show daily goal badge if met
-            if (currentState.dailyProgress >= 20) {
-                dailyGoalBadge.classList.remove('hidden');
-            } else {
-                dailyGoalBadge.classList.add('hidden');
+            alert(`📊 Your Statistics\n\n✅ Correct Answers: ${totalScore}\n📝 Total Answered: ${questionsAnswered}\n🎯 Accuracy: ${accuracy}%\n📚 Questions Remaining: ${500 - questionsAnswered}`);
+        }
+
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
             }
+            return shuffled;
         }
 
-        // Initialize event listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            // Already handled above
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAndResetDailyGoal();
+            updateDashboardStats();
+            renderUnitsGrid();
         });
     </script>
 </body>
