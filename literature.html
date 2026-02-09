@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Diplap Grammar | NEB Grade 12 English Portal</title>
+  <meta name="description" content="Diplap Grammar NEB Grade 12 English study portal with chapter-wise notes, summaries, important questions, and past questions (2076-2080)." />
+  <meta name="keywords" content="Diplap Grammar, NEB Grade 12 English, notes, summaries, past questions, 2076, 2077, 2078, 2079, 2080" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    :root {
+      color-scheme: light;
+    }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f172a;
+    }
+    .scrollbar-thin::-webkit-scrollbar { width: 4px; height: 4px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background:#64748b; border-radius:999px; }
+    .accordion-answer { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; }
+    .accordion-item.open .accordion-answer { max-height: 400px; }
+  </style>
+</head>
+<body class="text-slate-100">
+  <!-- App Shell -->
+  <div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="sticky top-0 z-30 bg-slate-900/95 backdrop-blur border-b border-slate-700">
+      <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
+        <div class="flex items-center gap-2">
+          <div class="w-9 h-9 rounded-full bg-amber-400 flex items-center justify-center text-slate-900 font-black text-lg">DG</div>
+          <div>
+            <h1 class="text-lg sm:text-xl font-bold tracking-tight text-amber-400">Diplap Grammar</h1>
+            <p class="text-[11px] sm:text-xs text-slate-300">NEB Grade 12 English • Quick Exam Revision</p>
+          </div>
+        </div>
+        <button id="mobileMenuBtn" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-slate-700 text-slate-100" aria-label="Toggle navigation">
+          <span class="sr-only">Menu</span>
+          <div class="space-y-1.5">
+            <span class="block w-5 h-0.5 bg-slate-100"></span>
+            <span class="block w-5 h-0.5 bg-slate-100"></span>
+            <span class="block w-5 h-0.5 bg-slate-100"></span>
+          </div>
+        </button>
+      </div>
+    </header>
+
+    <div class="flex-1 flex max-w-6xl mx-auto w-full px-0 md:px-4 py-2 md:py-4 gap-0 md:gap-4">
+      <!-- Sidebar -->
+      <nav id="sidebar" class="fixed inset-y-16 left-0 w-64 bg-slate-900/98 border-r border-slate-800 transform -translate-x-full md:translate-x-0 md:static md:block transition-transform duration-200 z-20 overflow-y-auto scrollbar-thin">
+        <div class="p-3">
+          <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Chapters</h2>
+          <div id="chapterList" class="space-y-1 pb-4"></div>
+        </div>
+      </nav>
+
+      <!-- Overlay for mobile -->
+      <div id="overlay" class="fixed inset-0 bg-black/40 z-10 hidden md:hidden"></div>
+
+      <!-- Main Content -->
+      <main class="flex-1 px-3 md:px-0 md:ml-0 ml-0 md:pl-0">
+        <section class="mt-2 md:mt-0 grid gap-3 md:gap-4">
+          <!-- Chapter Header Card -->
+          <article class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 md:p-5 shadow-lg shadow-black/40">
+            <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+              <div>
+                <p id="chapterTag" class="text-[11px] uppercase tracking-wide text-amber-300 font-semibold mb-1"></p>
+                <h2 id="chapterTitle" class="text-xl md:text-2xl font-bold text-slate-50"></h2>
+              </div>
+              <div class="text-right text-xs text-slate-300">
+                <p>NEB Grade 12 • English</p>
+                <p>Exam Focus: Plot • Theme • Past Questions</p>
+              </div>
+            </header>
+            <div>
+              <h3 class="text-sm font-semibold text-amber-300 mb-1">Author Snapshot</h3>
+              <p id="chapterBio" class="text-sm text-slate-200 leading-relaxed"></p>
+            </div>
+          </article>
+
+          <!-- Summary & Keywords -->
+          <div class="grid md:grid-cols-3 gap-3 md:gap-4">
+            <article class="md:col-span-2 bg-slate-900/80 border border-slate-800 rounded-xl p-4 md:p-5 shadow-lg shadow-black/40">
+              <h3 class="text-sm font-semibold text-amber-300 mb-2">Exam Summary</h3>
+              <p id="chapterSummary" class="text-sm text-slate-100 leading-relaxed"></p>
+            </article>
+            <article class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 md:p-5 shadow-lg shadow-black/40">
+              <h3 class="text-sm font-semibold text-amber-300 mb-2">Key Terms</h3>
+              <ul id="chapterKeywords" class="space-y-1.5 text-sm text-slate-100"></ul>
+            </article>
+          </div>
+
+          <!-- FAQ Accordion & Old Is Gold -->
+          <div class="grid md:grid-cols-2 gap-3 md:gap-4">
+            <article class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 md:p-5 shadow-lg shadow-black/40">
+              <h3 class="text-sm font-semibold text-amber-300 mb-2">Exam-Focused FAQs</h3>
+              <div id="chapterFaqs" class="space-y-2"></div>
+            </article>
+
+            <article class="bg-slate-900/80 border border-slate-800 rounded-xl p-4 md:p-5 shadow-lg shadow-black/40 flex flex-col max-h-80">
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="text-sm font-semibold text-amber-300">Old Is Gold: NEB Past Questions</h3>
+                <span class="text-[11px] text-slate-300">2076 – 2080</span>
+              </div>
+              <div class="overflow-auto scrollbar-thin flex-1 border border-slate-800 rounded-lg">
+                <table class="min-w-full text-left text-xs text-slate-100">
+                  <thead class="bg-slate-800/80 text-[11px] uppercase tracking-wide text-slate-300">
+                    <tr>
+                      <th class="px-3 py-2 w-12">Year</th>
+                      <th class="px-3 py-2 w-12">Marks</th>
+                      <th class="px-3 py-2">Question</th>
+                    </tr>
+                  </thead>
+                  <tbody id="chapterPast" class="divide-y divide-slate-800 bg-slate-900/60"></tbody>
+                </table>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="border-t border-slate-800 bg-slate-900/95 mt-4">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-1 text-[11px] text-slate-400">
+        <p>© <span id="yearSpan"></span> Diplap Grammar · NEB Grade 12 English Companion</p>
+        <p>Optimized for mobile & APK · Use for quick last-minute revision.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const chapters = {
+      1: {
+        title: "Neighbours",
+        tag: "Unit 1 · Short Story",
+        bio: "Tim Winton is an acclaimed Australian novelist known for his lyrical portrayals of working-class lives and coastal communities. His fiction often explores small, ordinary moments that reveal deep moral and social tensions.",
+        summary: "The story 'Neighbours' follows a young, newly married Australian couple who move into a culturally diverse inner-city suburb. Initially, they feel superior, irritated by the loud, emotional behaviour of their European and Macedonian neighbours, and disturbed by unfamiliar languages and customs. Over time, small acts of kindness, such as help with the garden and shared celebrations, slowly break down prejudice. The couple begin to appreciate the warmth, solidarity and communal spirit of their neighbours, especially during the wife's pregnancy and childbirth, when the whole neighbourhood emotionally supports them. The narrative shows how physical closeness can lead to emotional closeness and how stereotypes can dissolve through daily contact. Thematically, the story examines cultural diversity, empathy, belonging and the transformation of narrow individualism into a sense of shared humanity.",
+        keywords: [
+          { term: "Multiculturalism", def: "Co-existence of different cultures within the same community." },
+          { term: "Prejudice", def: "Unjust negative attitude formed before knowing people personally." },
+          { term: "Assimilation", def: "Gradual adoption of another group's customs and values." },
+          { term: "Neighbourliness", def: "Friendly, supportive relationship between nearby residents." },
+          { term: "Identity", def: "How people see themselves in relation to culture and place." }
+        ],
+        faqs: [
+          {
+            q: "How do the neighbours help to transform the young couple?",
+            a: "Through everyday gestures—sharing seeds, giving advice, and emotionally supporting the couple during pregnancy and childbirth—the neighbours replace the couple's suspicion with gratitude and affection, teaching them the value of community."
+          },
+          {
+            q: "What is the central conflict in 'Neighbours'?",
+            a: "The main conflict is cultural and psychological: the couple's initial discomfort and superiority clash with the noisy, expressive migrant neighbours, but this tension gradually shifts into acceptance and respect."
+          },
+          {
+            q: "How does setting contribute to the theme?",
+            a: "The cramped inner-city suburb forces physical proximity, making it impossible for the couple to ignore others; this closeness becomes the catalyst for understanding cultural diversity and building empathy."
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Summarise the story 'Neighbours' and show how contact changes the couple's attitude." },
+          { year: "2079", marks: "5", q: "How does cultural diversity shape the experiences of the young couple in 'Neighbours'?" },
+          { year: "2078", marks: "5", q: "Describe the transformation of the couple's relationship with their neighbours." },
+          { year: "2077", marks: "2", q: "What role does the garden play in the story 'Neighbours'?" },
+          { year: "2076", marks: "5", q: "Write the major themes of 'Neighbours' with suitable illustrations." }
+        ]
+      },
+      2: {
+        title: "A Respectable Woman",
+        tag: "Unit 2 · Short Story",
+        bio: "Kate Chopin was an American writer of the late 19th century, noted for her pioneering depictions of women's inner lives and social constraints in the American South. Her works anticipate modern feminist concerns about autonomy and desire.",
+        summary: "In 'A Respectable Woman', Mrs. Baroda, a married woman, struggles with unexpected attraction towards her husband's friend, Gouvernail, who visits their plantation. At first she dislikes him for being quiet and unexciting, but his gentle presence and thoughtful character gradually draw her interest. Mrs. Baroda becomes disturbed by her own feelings, fearing they may threaten her identity as a 'respectable' wife. She decides to distance herself and leaves the plantation until the visit ends. Later, after time and reflection, she tells her husband that she wants Gouvernail to visit again and believes she has enough self-control. The story explores the tension between social respectability and private desire, the complexity of female psychology, and the subtle ways women manage their impulses under patriarchal expectations.",
+        keywords: [
+          { term: "Respectability", def: "Socially approved behaviour that maintains a good reputation." },
+          { term: "Desire", def: "Strong feeling of attraction that may conflict with moral codes." },
+          { term: "Self-control", def: "Ability to regulate one's emotions and impulses." },
+          { term: "Patriarchy", def: "Social system dominated by male authority and norms." },
+          { term: "Inner conflict", def: "Psychological struggle within a character's mind." }
+        ],
+        faqs: [
+          {
+            q: "Why is Mrs. Baroda conflicted in the story?",
+            a: "She experiences an unexpected emotional and possibly romantic attraction to Gouvernail, which clashes with her self-image as a loyal, respectable wife, creating guilt and confusion."
+          },
+          {
+            q: "What does the ending suggest about Mrs. Baroda?",
+            a: "Her decision to invite Gouvernail again, claiming she has overcome everything, suggests both her confidence in self-control and the unresolved, ambiguous nature of her desire." 
+          },
+          {
+            q: "How does the story criticise social expectations of women?",
+            a: "By showing Mrs. Baroda suppressing her true feelings to fit the label of a 'respectable woman', the story exposes how patriarchal norms restrict women's emotional honesty and freedom." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Analyse the inner conflict of Mrs. Baroda in 'A Respectable Woman'." },
+          { year: "2079", marks: "5", q: "What does the title 'A Respectable Woman' suggest about social expectations?" },
+          { year: "2078", marks: "2", q: "Why is Mrs. Baroda attracted to Gouvernail?" },
+          { year: "2077", marks: "5", q: "Describe the ending of the story and its significance." },
+          { year: "2076", marks: "5", q: "Discuss 'A Respectable Woman' as a psychological story." }
+        ]
+      },
+      3: {
+        title: "A Devoted Son",
+        tag: "Unit 3 · Short Story",
+        bio: "Anita Desai is a prominent Indian novelist whose works explore family relationships, middle-class life, and psychological realism. She often portrays conflicts between tradition and modernity in urban Indian settings.",
+        summary: "'A Devoted Son' tells the story of Rakesh, an obedient and academically brilliant son of a poor Indian oil-seller, Varma. Rakesh fulfils his father's dreams by becoming a successful doctor and dutifully caring for his parents. After Varma grows old and sick, Rakesh strictly controls his father's diet and medicine for his health. However, Varma experiences this care as oppression; he longs for tasty food and freedom rather than medical discipline. Their relationship deteriorates as Varma accuses Rakesh of cruelty, even though Rakesh genuinely wants to prolong his life. The story questions what true devotion means and shows the gap between a caregiver's intentions and an elder's emotional needs. Themes include filial duty, ageing, generational conflict, and the tension between medical science and human feelings.",
+        keywords: [
+          { term: "Filial duty", def: "Respect and responsibility children owe to parents." },
+          { term: "Ageing", def: "Later stage of life marked by physical and emotional vulnerability." },
+          { term: "Generational gap", def: "Differences in values and expectations across ages." },
+          { term: "Paternal authority", def: "Traditional power of a father within the family." },
+          { term: "Medical ethics", def: "Moral issues arising from medical decisions and care." }
+        ],
+        faqs: [
+          {
+            q: "In what ways is Rakesh a 'devoted son'?",
+            a: "He studies hard, becomes a doctor, honours his parents, lives with them, and personally manages his father's treatment, sacrificing comfort to fulfil his duties." 
+          },
+          {
+            q: "Why does Varma feel unhappy despite Rakesh's care?",
+            a: "Varma values emotional comfort and small pleasures like rich food more than strict health rules; he sees Rakesh's restrictions as disrespectful and controlling." 
+          },
+          {
+            q: "What message does the story give about caring for the elderly?",
+            a: "It suggests that genuine care must balance medical needs with dignity, autonomy and emotional satisfaction of old people, not just physical survival." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "How does 'A Devoted Son' portray the conflict between duty and desire?" },
+          { year: "2079", marks: "5", q: "Write a character sketch of Varma in 'A Devoted Son'." },
+          { year: "2078", marks: "2", q: "Why does Varma call his son 'cruel'?" },
+          { year: "2077", marks: "5", q: "Discuss the theme of ageing in 'A Devoted Son'." },
+          { year: "2076", marks: "5", q: "Explain the title 'A Devoted Son' with reference to the story." }
+        ]
+      },
+      4: {
+        title: "The Treasure in the Forest",
+        tag: "Unit 4 · Short Story",
+        bio: "H. G. Wells was a British writer famous for his science fiction and speculative tales, but he also wrote short stories that examine greed, fear and human weakness. His narratives often mix adventure with moral warning.",
+        summary: "'The Treasure in the Forest' follows two men, Evans and Hooker, who sail to a remote island after overhearing a Chinese man, Chang-hi, speak about hidden treasure. Driven by greed, they hurriedly interpret a rough map and hack their way through the dense forest. The journey is tense and suspicious, as they fear possible traps and betrayal. When they finally discover a pile of strange yellow lumps, they imagine great wealth and begin to handle them carelessly. Gradually, they realise too late that the treasure is coated with a deadly poison—Chang-hi's silent revenge against thieves. Both men suffer a painful, paralysing death. The story warns against uncontrolled greed, colonial exploitation, and the illusion that stolen wealth brings happiness, using suspense and irony to build a chilling moral lesson.",
+        keywords: [
+          { term: "Greed", def: "Excessive desire for wealth or gain." },
+          { term: "Suspense", def: "Feeling of anxious uncertainty about what will happen." },
+          { term: "Irony", def: "Outcome opposite of what characters expect." },
+          { term: "Revenge", def: "Harm done in response to perceived wrong." },
+          { term: "Colonialism", def: "Control of foreign lands for economic profit." }
+        ],
+        faqs: [
+          {
+            q: "How does Wells create suspense in the story?",
+            a: "He uses the mysterious map, dense jungle, half-understood Chinese words and the men's growing anxiety to keep readers uncertain about the treasure's nature until the fatal revelation." 
+          },
+          {
+            q: "What is the main irony in 'The Treasure in the Forest'?",
+            a: "The men think the treasure will make them rich and powerful, but it actually becomes the instrument of their death, turning their dream into punishment." 
+          },
+          {
+            q: "What moral lesson does the story convey?",
+            a: "It suggests that greed and exploitation of others' property invite destruction, and that shortcuts to wealth often hide unseen dangers." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Show how suspense and irony work together in 'The Treasure in the Forest'." },
+          { year: "2079", marks: "5", q: "Why do Evans and Hooker meet a tragic end?" },
+          { year: "2078", marks: "2", q: "Who is Chang-hi and what is his role in the story?" },
+          { year: "2077", marks: "5", q: "Discuss the theme of greed in 'The Treasure in the Forest'." },
+          { year: "2076", marks: "5", q: "Write a short summary of 'The Treasure in the Forest'." }
+        ]
+      },
+      5: {
+        title: "My Old Home",
+        tag: "Unit 5 · Short Story",
+        bio: "Lu Xun is considered the father of modern Chinese literature, known for his sharp criticism of feudal traditions and social injustice. His stories blend personal memory with national reflection.",
+        summary: "In 'My Old Home', the unnamed narrator returns to his childhood village after twenty years to sell his ancestral house. He feels nostalgic yet disappointed by the poverty and decay around him. He meets Runtu, his childhood playmate, who was once energetic and imaginative but is now worn down by hardship and social hierarchy. The invisible barrier of class and custom prevents them from relating as equals, although their memories remain tender. The narrator realises how feudal attitudes, such as strict respect distances, have crushed ordinary lives. Leaving the village, he feels both sorrow and a faint hope that the next generation, represented by Runtu's and his own nephews, might escape old constraints. The story explores memory, social change, class division and the painful gap between idealised childhood and harsh adult reality.",
+        keywords: [
+          { term: "Nostalgia", def: "Sentimental longing for the past." },
+          { term: "Feudalism", def: "Old social system based on hierarchy and land ownership." },
+          { term: "Class barrier", def: "Invisible social line separating people of different status." },
+          { term: "Disillusionment", def: "Realising that reality is worse than imagined." },
+          { term: "Hope", def: "Expectation that the future can improve despite present pain." }
+        ],
+        faqs: [
+          {
+            q: "How does the narrator's view of his home change?",
+            a: "Childhood memories made the home seem magical and warm, but as an adult he sees poverty, decay and oppressive social relations, which breaks his idealised picture." 
+          },
+          {
+            q: "Who is Runtu and why is he important?",
+            a: "Runtu is the narrator's childhood friend whose ruined life symbolises how feudal oppression destroys talent and joy among peasants." 
+          },
+          {
+            q: "What does the ending suggest about the future?",
+            a: "The narrator imagines 'hope' as a new road created by walking; he believes the younger generation may create a freer, more equal society." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Explain how 'My Old Home' contrasts childhood memory with adult reality." },
+          { year: "2079", marks: "5", q: "Describe the character of Runtu and his symbolic role." },
+          { year: "2078", marks: "2", q: "Why does the narrator sell his old home?" },
+          { year: "2077", marks: "5", q: "Discuss the theme of feudalism in 'My Old Home'." },
+          { year: "2076", marks: "5", q: "What kind of 'hope' does the narrator imagine at the end of the story?" }
+        ]
+      },
+      6: {
+        title: "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun",
+        tag: "Unit 6 · Essay",
+        bio: "Shankar Lamichhane was a notable Nepali essayist known for his lyrical prose and reflective, philosophical style. His writings often blend travel, observation and meditation on art, culture and human values.",
+        summary: "This reflective essay describes the writer's visit to Lumbini and other sacred Buddhist sites in the Tarai. As he observes the half-closed eyes of the Buddha statues and the setting sun, he reflects on the contrast between the serene spiritual message of peace and compassion and the surrounding poverty, pollution and political neglect. The essayist criticises superficial tourism and ritual that ignore the Buddha's deeper teaching of inner awakening and social responsibility. He also comments on environmental degradation, commercialization and the failure to protect heritage sites. Through poetic images, he urges readers to open their inner eyes, practice tolerance and work for a more just, harmonious society. The themes revolve around spirituality versus materialism, national identity, responsible development and the need to live the Buddha's message in daily life.",
+        keywords: [
+          { term: "Contemplation", def: "Deep reflective thought, often spiritual." },
+          { term: "Heritage", def: "Cultural and historical sites or traditions passed down generations." },
+          { term: "Materialism", def: "Excessive concern with money and physical comfort." },
+          { term: "Compassion", def: "Sympathetic concern for the suffering of others." },
+          { term: "Environmental degradation", def: "Damage to nature through human activity." }
+        ],
+        faqs: [
+          {
+            q: "Why are the Buddha's eyes described as half-closed?",
+            a: "They symbolise balance between inner meditation and outward awareness, suggesting that spiritual insight must be connected with real-world responsibility." 
+          },
+          {
+            q: "What shortcomings does the writer see around Lumbini?",
+            a: "He notices poor infrastructure, pollution, lack of planning and a focus on profit and ritual rather than genuine understanding of the Buddha's teachings." 
+          },
+          {
+            q: "What message does the essay give to young Nepalis?",
+            a: "It urges them to protect cultural heritage, reject blind materialism and practise the Buddha's values of peace, tolerance and service in everyday life." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Discuss how the essay contrasts spiritual idealism with harsh reality." },
+          { year: "2079", marks: "5", q: "What is the significance of the 'half-closed eyes' image in the essay?" },
+          { year: "2078", marks: "2", q: "Which sacred place does the essay mainly describe?" },
+          { year: "2077", marks: "5", q: "Explain the writer's criticism of tourism around Buddhist sites." },
+          { year: "2076", marks: "5", q: "Write the central idea of 'The Half-closed Eyes of the Buddha and the Slowly Sinking Sun'." }
+        ]
+      },
+      7: {
+        title: "A Very Old Man with Enormous Wings",
+        tag: "Unit 7 · Short Story",
+        bio: "Gabriel García Márquez was a Colombian Nobel laureate known for magical realism, blending the ordinary with the miraculous. His stories often criticise social hypocrisy and explore faith, power and marginalised figures.",
+        summary: "In this story, a sickly old man with enormous wings appears in the courtyard of Pelayo and Elisenda after a storm. Although villagers and a priest suspect he might be an angel, they treat him as a spectacle rather than a sacred being. The couple lock him in a chicken coop, charge admission to see him and become rich from the curious crowds. People project selfish wishes onto the old man but show little compassion for his suffering. The church delays recognition because the angel does not fit official expectations. Over time, the crowds lose interest, and the old man slowly recovers and flies away. The narrative uses magical realism to question blind faith, religious bureaucracy, human cruelty and the way society exploits the mysterious instead of seeking its deeper meaning.",
+        keywords: [
+          { term: "Magical realism", def: "Literary style mixing realistic detail with magical elements." },
+          { term: "Exploitation", def: "Unfair use of someone for personal gain." },
+          { term: "Faith", def: "Belief in something beyond rational proof." },
+          { term: "Hypocrisy", def: "Claiming moral values without practising them." },
+          { term: "Alienation", def: "Feeling isolated or treated as an outsider." }
+        ],
+        faqs: [
+          {
+            q: "How is the old man treated by the villagers?",
+            a: "They treat him like a circus animal—locking him up, poking and staring at him, and using him to earn money instead of showing respect or mercy." 
+          },
+          {
+            q: "What is the role of the church in the story?",
+            a: "The priest delays judgement, focusing on rules and appearances; this satirises religious institutions that ignore real compassion while debating theology." 
+          },
+          {
+            q: "What does the old man's final flight symbolise?",
+            a: "It suggests the endurance of the mysterious and sacred beyond human control and hints at spiritual freedom escaping from greed and ignorance." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Explain 'A Very Old Man with Enormous Wings' as a story of magical realism." },
+          { year: "2079", marks: "5", q: "How are greed and faith portrayed in the story?" },
+          { year: "2078", marks: "2", q: "Why do Pelayo and Elisenda keep the old man in a chicken coop?" },
+          { year: "2077", marks: "5", q: "Discuss the symbolic significance of the old man's wings." },
+          { year: "2076", marks: "5", q: "Write a short summary of 'A Very Old Man with Enormous Wings'." }
+        ]
+      },
+      8: {
+        title: "A Day",
+        tag: "Unit 8 · Poem",
+        bio: "Emily Dickinson was a reclusive American poet whose short, compressed lyrics often explore nature, death, immortality and spiritual insight. Her unconventional style and punctuation make her one of the most original voices in English poetry.",
+        summary: "'A Day' describes a sunrise-to-sunset journey that symbolically represents the passage from life to death or from ignorance to spiritual knowledge. In simple, childlike language, the speaker observes how the sun rises, colours appear, birds begin to sing and children go to school, all suggesting the freshness and promise of morning. As the day ends, the imagery becomes quieter and more mysterious, with the 'hills' removing their 'bonnets' and the 'gentleman' leading children away, hinting at sunset and possibly death. The poem leaves meaning open, but many readers see it as an allegory of the soul's journey, where sunrise stands for birth or awakening and sunset for entry into another world. Its main themes include the beauty of nature, the mystery of death and the limits of human understanding.",
+        keywords: [
+          { term: "Allegory", def: "A narrative with a hidden symbolic meaning." },
+          { term: "Imagery", def: "Descriptive language appealing to the senses." },
+          { term: "Personification", def: "Giving human traits to non-human things." },
+          { term: "Transition", def: "Movement from one state or stage to another." },
+          { term: "Mortality", def: "The fact that life is limited and must end." }
+        ],
+        faqs: [
+          {
+            q: "How does Dickinson portray sunrise in the poem?",
+            a: "She uses bright visual images and active verbs—ribbons of light, fields of gazing grain—to capture the energy and wonder of morning." 
+          },
+          {
+            q: "Why is the ending of the poem ambiguous?",
+            a: "The speaker admits not knowing 'how it sets', suggesting that death or ultimate truth lies beyond human experience, leaving readers to interpret the symbols." 
+          },
+          {
+            q: "What is the central theme of 'A Day'?",
+            a: "It reflects on the cycle of life and death using the ordinary movement of the sun as a metaphor for spiritual journeys and human limitation." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Interpret 'A Day' as an allegory of life and death." },
+          { year: "2079", marks: "5", q: "How does the poet use imagery to present sunrise and sunset?" },
+          { year: "2078", marks: "2", q: "What does the 'gentleman' at the end of the poem symbolise?" },
+          { year: "2077", marks: "5", q: "Discuss the theme of uncertainty in 'A Day'." },
+          { year: "2076", marks: "5", q: "Write the summary of the poem 'A Day'." }
+        ]
+      },
+      9: {
+        title: "Every Morning I Wake",
+        tag: "Unit 9 · Poem",
+        bio: "Dylan Thomas was a Welsh poet known for his musical language, rich imagery and intense exploration of life, death and spirituality. His work often combines religious echo with personal emotion.",
+        summary: "'Every Morning I Wake' is a short prayer-like poem in which the speaker addresses God each day upon waking and before sleeping. He imagines countless other people around the world who may be praying at the same time, each with their own troubles, joys and needs. The poem expresses human dependence on a higher power and a sense of shared humanity, as all people are united in vulnerability and hope. The speaker asks for guidance, protection and forgiveness, recognising human weakness and the unpredictability of life. Although simple, the poem raises questions about faith, suffering and the possibility of divine care in a complex world. Its tone is humble, meditative and universal, making it suitable for exam discussion on prayer and global solidarity.",
+        keywords: [
+          { term: "Prayer", def: "Act of addressing God or a deity with words or thoughts." },
+          { term: "Humility", def: "Modest view of one's importance before a higher power." },
+          { term: "Solidarity", def: "Unity and shared feeling among people." },
+          { term: "Supplication", def: "Humble request for help or mercy." },
+          { term: "Spiritual anxiety", def: "Concern about meaning, guilt and divine response." }
+        ],
+        faqs: [
+          {
+            q: "What is the central idea of 'Every Morning I Wake'?",
+            a: "The poem presents daily prayer as a moment of personal reflection and connection with both God and the suffering, hopeful human community." 
+          },
+          {
+            q: "How does the poem show a global perspective?",
+            a: "The speaker imagines people in different places and conditions praying simultaneously, suggesting that human needs and longings are universal." 
+          },
+          {
+            q: "What is the tone of the poem?",
+            a: "The tone is humble, sincere and contemplative, mixing fear of life's dangers with trust in divine care." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Explain how 'Every Morning I Wake' presents prayer as a universal human act." },
+          { year: "2079", marks: "5", q: "Discuss the speaker's attitude towards God in the poem." },
+          { year: "2078", marks: "2", q: "When does the speaker pray in 'Every Morning I Wake'?" },
+          { year: "2077", marks: "5", q: "What images in the poem suggest global human suffering?" },
+          { year: "2076", marks: "5", q: "Write the central idea of the poem 'Every Morning I Wake'." }
+        ]
+      },
+      10: {
+        title: "I Was My Own Route",
+        tag: "Unit 10 · Poem",
+        bio: "Julia de Burgos was a Puerto Rican poet and activist who wrote about identity, colonialism and women's liberation. Her bold voice challenged patriarchal and colonial structures in Latin American society.",
+        summary: "'I Was My Own Route' is a feminist poem in which the speaker rejects traditional roles and expectations placed on women. She refuses to follow the 'roads' designed by patriarchy—paths of obedience, domesticity and silence—and instead chooses to create her own route. The poem celebrates self-definition, independence and inner strength, as the speaker tears down limiting symbols such as old statues and myths. She recognises the cost of breaking away from social norms but insists that authentic freedom is more valuable than acceptance by a conservative society. Themes include gender equality, personal autonomy, rebellion against oppression and the search for a new identity for women in a decolonising world. The strong, assertive tone makes the poem a powerful text for exam discussion on feminism.",
+        keywords: [
+          { term: "Feminism", def: "Movement for political, social and economic equality of genders." },
+          { term: "Patriarchal norms", def: "Traditional rules that privilege men over women." },
+          { term: "Self-assertion", def: "Confidently claiming one's own rights and identity." },
+          { term: "Resistance", def: "Act of opposing injustice or oppression." },
+          { term: "Identity", def: "Sense of who one is, shaped by personal and social factors." }
+        ],
+        faqs: [
+          {
+            q: "Why does the speaker refuse the 'traditional route'?",
+            a: "Because it confines women to dependence and silence; she wants to live as a free, self-directing individual rather than an obedient follower." 
+          },
+          {
+            q: "How is the poem empowering for women?",
+            a: "It encourages women to reject limiting roles, speak in their own voices and take control of their life's direction despite social criticism." 
+          },
+          {
+            q: "What is the significance of the word 'route' in the title?",
+            a: "It symbolises life's path; by saying she was her own route, the poet claims authorship of her destiny instead of walking paths made by others." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Discuss 'I Was My Own Route' as a feminist poem." },
+          { year: "2079", marks: "5", q: "How does the speaker construct her own identity in the poem?" },
+          { year: "2078", marks: "2", q: "What does the poet reject in 'I Was My Own Route'?" },
+          { year: "2077", marks: "5", q: "Explain the symbolism of roads and statues in the poem." },
+          { year: "2076", marks: "5", q: "Write the summary of the poem 'I Was My Own Route'." }
+        ]
+      },
+      11: {
+        title: "The Awakening Age",
+        tag: "Unit 11 · Poem",
+        bio: "Ben Okri is a Nigerian poet and novelist associated with magical realism and postcolonial literature. His works often address African history, political struggle and spiritual renewal.",
+        summary: "'The Awakening Age' is an optimistic poem that imagines a new era for Africa and the world after long periods of colonialism, poverty and war. The speaker addresses 'us'—the poor, the oppressed, the dreamers—and invites them to rise from sleep into awareness. Education, unity and imagination are presented as tools to break chains of ignorance and exploitation. The poem envisions a future where justice, equality and human dignity are realised, comparing this transformation to dawn after a long night. Okri emphasises that awakening is not only political but also spiritual: people must change their mindset, see themselves as capable and work collectively. The poem's hopeful tone and rhythmic language make it a motivational text for discussing development and social change.",
+        keywords: [
+          { term: "Awakening", def: "Becoming aware after a period of ignorance or sleep." },
+          { term: "Postcolonialism", def: "Condition of societies after colonial rule, dealing with its effects." },
+          { term: "Emancipation", def: "Freeing people from oppression or bondage." },
+          { term: "Collective hope", def: "Shared belief in a better future." },
+          { term: "Vision", def: "Imagined picture of what the future could be like." }
+        ],
+        faqs: [
+          {
+            q: "Who are the 'we' in 'The Awakening Age'?",
+            a: "They are the poor, marginalised and formerly colonised people who are invited to rise into knowledge, unity and self-belief." 
+          },
+          {
+            q: "How does the poem link education to freedom?",
+            a: "It suggests that learning and critical awareness can break mental chains and allow people to challenge injustice and create new possibilities." 
+          },
+          {
+            q: "What is the mood of the poem?",
+            a: "The mood is hopeful and inspirational, pointing towards a bright collective future after long suffering." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Explain how 'The Awakening Age' is a poem of hope and renewal." },
+          { year: "2079", marks: "5", q: "Discuss the role of unity in the poem 'The Awakening Age'." },
+          { year: "2078", marks: "2", q: "What kind of 'age' does the poet dream of?" },
+          { year: "2077", marks: "5", q: "How does Ben Okri connect history and future in the poem?" },
+          { year: "2076", marks: "5", q: "Write the central idea of 'The Awakening Age'." }
+        ]
+      },
+      12: {
+        title: "Soft Storm",
+        tag: "Unit 12 · Poem",
+        bio: "Abhi Subedi is a respected Nepali poet, dramatist and critic whose works address modernity, social change and the search for inner peace. He writes in both Nepali and English.",
+        summary: "'Soft Storm' presents a series of images that capture confusion, moral crisis and quiet suffering in contemporary society. The poet describes scenes of violence, displacement, environmental damage and spiritual emptiness, yet calls the experience a 'soft' storm because it is subtle and internal rather than loudly dramatic. Ordinary people feel powerless before political corruption and global forces, but small moments of kindness and natural beauty still appear. The poem suggests that the real storm is within the human conscience as we struggle to respond ethically to injustice. It invites readers, especially the educated youth, to be sensitive, critical and compassionate instead of numb. Themes include social injustice, ecological concern, inner conflict and the need for moral awakening.",
+        keywords: [
+          { term: "Metaphor", def: "Word or phrase applied to something it does not literally denote." },
+          { term: "Alienation", def: "Feeling of isolation in a changing society." },
+          { term: "Moral crisis", def: "Time when right and wrong seem confused." },
+          { term: "Urbanisation", def: "Growth of cities and loss of rural simplicity." },
+          { term: "Conscience", def: "Inner sense of right and wrong." }
+        ],
+        faqs: [
+          {
+            q: "Why is the storm called 'soft'?",
+            a: "Because the poem focuses on silent psychological and moral turbulence rather than loud physical destruction; the violence is subtle but deep." 
+          },
+          {
+            q: "What social issues appear in the poem?",
+            a: "It hints at war, displacement, environmental loss, political failure and emotional numbness in modern life." 
+          },
+          {
+            q: "What does the poet expect from readers?",
+            a: "He wants them to be alert, empathetic and willing to act against injustice instead of passively accepting the 'soft storm'." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Interpret 'Soft Storm' as a poem about moral and social turbulence." },
+          { year: "2079", marks: "5", q: "What images in 'Soft Storm' show inner conflict and social chaos?" },
+          { year: "2078", marks: "2", q: "Why does the poet use the word 'soft' for the storm?" },
+          { year: "2077", marks: "5", q: "Discuss the relevance of 'Soft Storm' to present-day society." },
+          { year: "2076", marks: "5", q: "Write the summary of the poem 'Soft Storm'." }
+        ]
+      },
+      13: {
+        title: "On Libraries",
+        tag: "Unit 13 · Essay",
+        bio: "Oliver Sacks was a British neurologist and writer celebrated for his humane case histories and essays on the brain, memory and culture. He was also a passionate reader and advocate of libraries.",
+        summary: "In 'On Libraries', Sacks reflects on his lifelong love affair with books and libraries, from childhood visits to public reading rooms to his adult use of research collections. He sees libraries as democratic spaces that offer free access to knowledge, imagination and intellectual community regardless of class. The essay describes the physical pleasures of books—their smell, weight and arrangement—as well as the joy of discovery through browsing shelves. Sacks worries about the future of libraries in the digital age but argues that they remain essential as quiet places for thinking and as guardians of cultural memory. The piece encourages students to use libraries not just for exams but for lifelong curiosity, emphasising reading as a way to expand empathy, concentration and freedom of mind.",
+        keywords: [
+          { term: "Bibliophilia", def: "Deep love of books and reading." },
+          { term: "Public sphere", def: "Space where citizens share ideas and information." },
+          { term: "Archive", def: "Collection of historical documents and records." },
+          { term: "Democratisation", def: "Making something accessible to all, not just elites." },
+          { term: "Digital age", def: "Current era dominated by electronic technology and internet." }
+        ],
+        faqs: [
+          {
+            q: "Why are libraries important according to Sacks?",
+            a: "They provide free, organised access to vast knowledge, nurture concentration and curiosity, and serve as community spaces for quiet reflection." 
+          },
+          {
+            q: "How does the essay respond to digital technology?",
+            a: "Sacks welcomes digital tools but insists that physical libraries and printed books still offer unique sensory, social and archival values." 
+          },
+          {
+            q: "What exam lesson can students take from 'On Libraries'?",
+            a: "Students should see libraries as long-term partners in self-education, not just as last-minute sources for copying notes." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Discuss 'On Libraries' as a celebration of reading and knowledge." },
+          { year: "2079", marks: "5", q: "How does Oliver Sacks describe the role of libraries in a democratic society?" },
+          { year: "2078", marks: "2", q: "Why does Sacks love libraries?" },
+          { year: "2077", marks: "5", q: "Explain Sacks's concern about the future of libraries." },
+          { year: "2076", marks: "5", q: "Write the central idea of the essay 'On Libraries'." }
+        ]
+      },
+      14: {
+        title: "Marriage as a Social Institution",
+        tag: "Unit 14 · Essay",
+        bio: "Jawaharlal Nehru was the first Prime Minister of independent India and a prominent writer and thinker. His essays often connect personal reflection with broad social and historical analysis.",
+        summary: "This essay examines marriage not just as a private relationship but as a key social institution shaped by history, religion and economics. Nehru traces how arranged marriages, dowry, caste rules and gender inequality have influenced marital practices in South Asia. He recognises that marriage can provide companionship, stability and responsible child-rearing, yet he also criticises customs that make it a prison, especially for women. The essay supports gradual reform: love, mutual respect and freedom of choice should replace blind tradition. Nehru argues that as society modernises, marriage must adapt to principles of equality and individual dignity. For NEB exams, the text is useful to discuss changing family patterns, women's rights and the tension between tradition and modernity.",
+        keywords: [
+          { term: "Institution", def: "Established social practice or organisation." },
+          { term: "Arranged marriage", def: "Marriage fixed by families rather than individuals." },
+          { term: "Dowry", def: "Property or money given by bride's family to groom." },
+          { term: "Gender inequality", def: "Unequal treatment of people based on gender." },
+          { term: "Modernisation", def: "Process of social change towards more rational and egalitarian norms." }
+        ],
+        faqs: [
+          {
+            q: "How does Nehru view traditional marriage customs?",
+            a: "He appreciates their stabilising role but criticises practices like forced marriage and dowry that limit individual freedom and especially harm women." 
+          },
+          {
+            q: "What changes in marriage does the essay support?",
+            a: "It favours companionate marriage based on mutual love, equality, education and conscious choice rather than blind obedience to elders." 
+          },
+          {
+            q: "Why is marriage called a 'social institution'?",
+            a: "Because it is regulated by laws, customs and religious norms and serves social functions such as reproduction and socialisation of children." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Discuss 'Marriage as a Social Institution' with reference to changing values." },
+          { year: "2079", marks: "5", q: "What reforms in marriage does Nehru argue for?" },
+          { year: "2078", marks: "2", q: "Why is marriage important for society?" },
+          { year: "2077", marks: "5", q: "Explain the harmful effects of dowry as discussed in the essay." },
+          { year: "2076", marks: "5", q: "Write the central idea of 'Marriage as a Social Institution'." }
+        ]
+      },
+      15: {
+        title: "Knowledge and Wisdom",
+        tag: "Unit 15 · Essay",
+        bio: "Bertrand Russell was a British philosopher, logician and Nobel Prize-winning writer known for his clear essays on philosophy, politics and education. He was a leading figure in analytic philosophy.",
+        summary: "In 'Knowledge and Wisdom', Russell distinguishes between mere knowledge—facts and specialised information—and wisdom, which is the ability to use knowledge for good, with awareness of consequences and human values. He warns that modern education and science often produce experts who know a lot about narrow fields but lack moral insight, leading to dangers like war, exploitation and environmental damage. True wisdom requires breadth of vision, imagination, sympathy and a sense of proportion, allowing people to see connections between things and to care about the welfare of others. Russell argues that schools and universities should train not only the mind but also the character so that knowledge serves peace and happiness rather than destruction.",
+        keywords: [
+          { term: "Specialisation", def: "Concentrating on a limited field of knowledge." },
+          { term: "Wisdom", def: "Judicious use of knowledge guided by ethics and foresight." },
+          { term: "Sense of proportion", def: "Ability to judge relative importance of things." },
+          { term: "Humanitarianism", def: "Concern for improving human welfare." },
+          { term: "Ethics", def: "Branch of philosophy dealing with right and wrong." }
+        ],
+        faqs: [
+          {
+            q: "How does Russell define wisdom?",
+            a: "Wisdom is knowledge integrated with love, imagination and concern for the whole of human life, not just technical success." 
+          },
+          {
+            q: "Why can knowledge without wisdom be dangerous?",
+            a: "Because powerful technologies in the hands of selfish or short-sighted people can lead to war, oppression and environmental crisis." 
+          },
+          {
+            q: "What educational reforms does Russell suggest?",
+            a: "He wants education to emphasise broad understanding, emotional maturity and moral responsibility alongside specialised study." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Differentiate between knowledge and wisdom with reference to Russell's essay." },
+          { year: "2079", marks: "5", q: "Why does Russell emphasise a sense of proportion?" },
+          { year: "2078", marks: "2", q: "What danger arises from specialised knowledge?" },
+          { year: "2077", marks: "5", q: "Discuss Russell's view on the purpose of education." },
+          { year: "2076", marks: "5", q: "Write the central idea of 'Knowledge and Wisdom'." }
+        ]
+      },
+      16: {
+        title: "Humility",
+        tag: "Unit 16 · Essay",
+        bio: "Yuval Noah Harari is an Israeli historian and writer best known for his popular books on human history and the future, where he combines data with philosophical reflection.",
+        summary: "In 'Humility', Harari challenges the belief that any one nation, religion or culture is the centre of the world. He shows how different civilisations—European, Chinese, Muslim, Indian and others—have all once seen themselves as the most important, often rewriting history to support this pride. Harari argues that such illusions are dangerous because they justify prejudice, violence and narrow thinking. True humility means recognising that humans are only one small part of the universe and that our culture is just one among many. He invites readers to adopt a global, scientific perspective that respects diversity and accepts uncertainty. For NEB students, the essay is an opportunity to reflect on nationalism, religious tolerance and the need for critical thinking in a globalised age.",
+        keywords: [
+          { term: "Anthropocentrism", def: "Belief that humans are the central element of existence." },
+          { term: "Ethnocentrism", def: "Judging other cultures only by one's own standards." },
+          { term: "Nationalism", def: "Strong identification with one's nation, sometimes extreme." },
+          { term: "Pluralism", def: "Acceptance of many beliefs and lifestyles in one society." },
+          { term: "Scientific worldview", def: "Understanding reality through evidence and critical inquiry." }
+        ],
+        faqs: [
+          {
+            q: "What kind of humility does Harari promote?",
+            a: "Not personal shyness, but intellectual humility: accepting that our culture and species are not the centre of the universe and can be wrong." 
+          },
+          {
+            q: "How does the essay criticise national myths?",
+            a: "It shows how almost every civilisation has created flattering stories about its own greatness, which distort history and fuel conflict." 
+          },
+          {
+            q: "Why is humility important in a globalised world?",
+            a: "Because cooperation on global problems like climate change requires respect, open-mindedness and willingness to learn from others." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Discuss 'Humility' as an essay against ethnocentrism." },
+          { year: "2079", marks: "5", q: "How does Harari use history to teach humility?" },
+          { year: "2078", marks: "2", q: "What is ethnocentrism?" },
+          { year: "2077", marks: "5", q: "Why does Harari reject the idea of a chosen nation or religion?" },
+          { year: "2076", marks: "5", q: "Write the central idea of the essay 'Humility'." }
+        ]
+      },
+      17: {
+        title: "Human Rights and the Age of Inequality",
+        tag: "Unit 17 · Essay",
+        bio: "Samuel Moyn is an American legal historian who writes about human rights, ethics and international law, especially in relation to modern inequality.",
+        summary: "This essay examines the rise of the modern human rights movement alongside growing economic inequality. Moyn argues that human rights campaigns have been successful in promoting civil and political freedoms—such as free speech and protection from torture—but have done less to address unfair distribution of wealth. As a result, extreme inequality has increased even while human rights language has become popular. He suggests that focusing only on minimum protections is not enough; societies must also debate taxation, social welfare and economic systems if they truly care about human dignity. The essay encourages students to think critically about the limits of international law and to link human rights with social justice, labour rights and solidarity.",
+        keywords: [
+          { term: "Human rights", def: "Basic freedoms and protections all people should enjoy." },
+          { term: "Inequality", def: "Unequal distribution of income, wealth or opportunity." },
+          { term: "Social justice", def: "Fairness in the organisation of society." },
+          { term: "Neoliberalism", def: "Economic policy favouring free markets and limited state role." },
+          { term: "Welfare state", def: "System where government protects citizens through services and support." }
+        ],
+        faqs: [
+          {
+            q: "What is Moyn's main criticism of the human rights movement?",
+            a: "He believes it has focused more on protecting individuals from state abuse than on challenging economic systems that create vast inequality." 
+          },
+          {
+            q: "How are human rights and inequality linked in the essay?",
+            a: "Moyn argues that real respect for human dignity requires not only basic rights but also fair access to resources and opportunities." 
+          },
+          {
+            q: "What solution does the essay suggest?",
+            a: "Combining human rights activism with political struggles for redistribution, labour protection and strong social policies." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Explain Moyn's argument about the limits of human rights in an age of inequality." },
+          { year: "2079", marks: "5", q: "How can human rights discourse be connected to economic justice?" },
+          { year: "2078", marks: "2", q: "What does inequality mean in the essay?" },
+          { year: "2077", marks: "5", q: "Discuss the achievements and failures of the human rights movement as presented by Moyn." },
+          { year: "2076", marks: "5", q: "Write the central idea of 'Human Rights and the Age of Inequality'." }
+        ]
+      },
+      18: {
+        title: "A Matter for Husband",
+        tag: "Unit 18 · One-act Play",
+        bio: "Ferenc Molnár was a Hungarian dramatist and novelist known for witty comedies and lively stagecraft. Many of his plays explore marriage, jealousy and social manners.",
+        summary: "'A Matter for Husband' is a light-hearted one-act play about misunderstanding and jealousy in marriage. Alfred's wife becomes suspicious when she finds a love letter addressed to him and assumes he is unfaithful. In reality, the letter concerns a stage rehearsal with a young actress who is Alfred's cousin. Instead of explaining directly, Alfred and his lawyer friend Benjamin cleverly stage a conversation to make the wife realise her mistake and also to flatter her importance. The confusion is cleared, and the couple reconcile with renewed affection. The play uses humour, dramatic irony and quick dialogue to show how easily trust can be shaken and how communication and tact are needed in relationships. It also comments on gender roles and the theatrical nature of social life.",
+        keywords: [
+          { term: "Farce", def: "Comic drama based on exaggerated situations and misunderstandings." },
+          { term: "Dramatic irony", def: "Audience knows more than one or more characters." },
+          { term: "Jealousy", def: "Fear of losing someone's love to a rival." },
+          { term: "Reconciliation", def: "Restoring friendly relations after conflict." },
+          { term: "Stagecraft", def: "Technical and artistic skills used in theatre." }
+        ],
+        faqs: [
+          {
+            q: "Why does Alfred's wife doubt him?",
+            a: "She finds a seemingly romantic letter and quickly concludes that Alfred is having an affair, without checking the full context." 
+          },
+          {
+            q: "How is the misunderstanding resolved?",
+            a: "Alfred and Benjamin theatrically reveal that the 'other woman' is Alfred's cousin and an actress, turning the scene into playful proof of his loyalty." 
+          },
+          {
+            q: "What does the play suggest about marital trust?",
+            a: "It shows that trust can be fragile but can be restored through honest communication, patience and a bit of humour." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Discuss 'A Matter for Husband' as a comedy of misunderstanding." },
+          { year: "2079", marks: "5", q: "How are jealousy and trust presented in the play?" },
+          { year: "2078", marks: "2", q: "Who is Benjamin and what is his role?" },
+          { year: "2077", marks: "5", q: "Explain the use of dramatic irony in 'A Matter for Husband'." },
+          { year: "2076", marks: "5", q: "Write the summary of 'A Matter for Husband'." }
+        ]
+      },
+      19: {
+        title: "Facing Death",
+        tag: "Unit 19 · One-act Play",
+        bio: "August Strindberg was a Swedish playwright and novelist whose intense dramas explore psychological struggle, poverty and family conflict. He is considered a pioneer of modern drama.",
+        summary: "'Facing Death' centres on Monsieur Durand, an impoverished former hotel owner who lives with his three ungrateful daughters. Burdened by debt and constant criticism, he feels like a useless failure. Durand secretly decides to sacrifice his life so that his daughters can receive insurance money. He stages a fake accident by overloading the stove with wood, planning to die in the fire and make it look unintentional. Throughout the play, he reflects bitterly on past mistakes, selfish children and social injustice. The ending is tragic as his death may secure financial relief but does not truly heal emotional wounds. The play raises questions about parental responsibility, economic pressure, filial ingratitude and the ethics of suicide.",
+        keywords: [
+          { term: "Tragedy", def: "Serious drama with sorrowful or disastrous ending." },
+          { term: "Sacrifice", def: "Giving up one's life or interests for others." },
+          { term: "Debt", def: "Money owed that creates continuing pressure." },
+          { term: "Insurance", def: "Financial protection against future loss." },
+          { term: "Filial ingratitude", def: "Children's failure to appreciate parents' sacrifices." }
+        ],
+        faqs: [
+          {
+            q: "Why does Monsieur Durand decide to die?",
+            a: "He believes his life is a burden and thinks that by dying in an 'accident' he can provide insurance money to support his daughters." 
+          },
+          {
+            q: "How are the daughters portrayed in the play?",
+            a: "They are mostly selfish, complaining and insensitive to their father's suffering, highlighting generational and moral failure." 
+          },
+          {
+            q: "What social issues does 'Facing Death' highlight?",
+            a: "It exposes the harsh effects of poverty, debt, lack of social security and the emotional cost of ungrateful family relations." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Discuss 'Facing Death' as a modern tragedy." },
+          { year: "2079", marks: "5", q: "Why does Durand arrange a fake accident in 'Facing Death'?" },
+          { year: "2078", marks: "2", q: "How many daughters does Monsieur Durand have?" },
+          { year: "2077", marks: "5", q: "Examine the theme of sacrifice in the play 'Facing Death'." },
+          { year: "2076", marks: "5", q: "Write the summary of the one-act play 'Facing Death'." }
+        ]
+      },
+      20: {
+        title: "The Bull",
+        tag: "Unit 20 · One-act Play",
+        bio: "Bhavani Bhikshu was a prominent Nepali writer whose stories and plays often depicted rural life, class conflict and social change with realistic detail.",
+        summary: "'The Bull' is a Nepali one-act play that focuses on Keshar Bahadur, a poor but proud villager deeply attached to his bull, Lalu. The bull is not only an animal for labour; it symbolises Keshar's dignity, hope and emotional companionship. Economic pressure forces Keshar to sell Lalu to a butcher, but he is torn between financial need and love for the animal. The conflict reveals the harsh reality of rural poverty, where survival often demands painful sacrifices. The play ends tragically, underlining how the poor lose both material assets and emotional bonds. Themes include man–animal relationship, poverty, exploitation, and the clash between heart and harsh economy, making it a powerful text for social criticism in NEB exams.",
+        keywords: [
+          { term: "Symbolism", def: "Use of objects or characters to represent deeper meanings." },
+          { term: "Rural poverty", def: "Persistent lack of resources in village areas." },
+          { term: "Exploitation", def: "Unfair treatment for economic benefit." },
+          { term: "Emotional attachment", def: "Strong feelings of love and connection." },
+          { term: "Moral dilemma", def: "Difficulty choosing between two ethically painful options." }
+        ],
+        faqs: [
+          {
+            q: "What does the bull Lalu symbolise in the play?",
+            a: "Lalu symbolises Keshar Bahadur's dignity, affection and fragile economic security, making his sale emotionally devastating." 
+          },
+          {
+            q: "Why is Keshar forced to sell the bull?",
+            a: "Crippling poverty and debt leave him with no alternative source of money, showing how economics can crush humane feelings." 
+          },
+          {
+            q: "What social message does 'The Bull' convey?",
+            a: "It criticises a system where the poor must sacrifice their deepest attachments to survive, calling for empathy and structural change." 
+          }
+        ],
+        past: [
+          { year: "2080", marks: "5", q: "Analyse the symbolic role of Lalu in 'The Bull'." },
+          { year: "2079", marks: "5", q: "How does 'The Bull' expose the impact of poverty on human emotions?" },
+          { year: "2078", marks: "2", q: "Who is Keshar Bahadur?" },
+          { year: "2077", marks: "5", q: "Discuss the theme of exploitation in the play 'The Bull'." },
+          { year: "2076", marks: "5", q: "Write the summary of the one-act play 'The Bull'." }
+        ]
+      }
+    };
+
+    const chapterListEl = document.getElementById('chapterList');
+    const chapterTagEl = document.getElementById('chapterTag');
+    const chapterTitleEl = document.getElementById('chapterTitle');
+    const chapterBioEl = document.getElementById('chapterBio');
+    const chapterSummaryEl = document.getElementById('chapterSummary');
+    const chapterKeywordsEl = document.getElementById('chapterKeywords');
+    const chapterFaqsEl = document.getElementById('chapterFaqs');
+    const chapterPastEl = document.getElementById('chapterPast');
+
+    function renderSidebar() {
+      Object.keys(chapters).forEach(id => {
+        const ch = chapters[id];
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'w-full text-left text-xs px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-100 flex items-start gap-2 focus:outline-none focus:ring-2 focus:ring-amber-400';
+        btn.dataset.id = id;
+        btn.innerHTML = `<span class="mt-0.5 text-[11px] text-slate-400">${id.padStart ? id.padStart(2,'0') : ('0'+id).slice(-2)}</span>
+                         <span>
+                           <span class="block font-semibold">${ch.title}</span>
+                           <span class="block text-[11px] text-slate-400">${ch.tag}</span>
+                         </span>`;
+        btn.addEventListener('click', () => {
+          loadChapter(id);
+          highlightActive(id);
+          closeMobileNav();
+        });
+        chapterListEl.appendChild(btn);
+      });
+    }
+
+    function highlightActive(activeId) {
+      Array.from(chapterListEl.children).forEach(btn => {
+        if (btn.dataset.id === String(activeId)) {
+          btn.classList.add('bg-amber-500/20','border','border-amber-500/60');
+        } else {
+          btn.classList.remove('bg-amber-500/20','border','border-amber-500/60');
+        }
+      });
+    }
+
+    function loadChapter(id) {
+      const ch = chapters[id];
+      if (!ch) return;
+      chapterTagEl.textContent = ch.tag;
+      chapterTitleEl.textContent = ch.title;
+      chapterBioEl.textContent = ch.bio;
+      chapterSummaryEl.textContent = ch.summary;
+
+      chapterKeywordsEl.innerHTML = '';
+      ch.keywords.forEach(k => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="font-semibold text-amber-300">${k.term}:</span> <span class="text-slate-100">${k.def}</span>`;
+        chapterKeywordsEl.appendChild(li);
+      });
+
+      chapterFaqsEl.innerHTML = '';
+      ch.faqs.forEach((f, index) => {
+        const item = document.createElement('div');
+        item.className = 'accordion-item border border-slate-700 rounded-lg';
+        const isOpen = index === 0;
+        item.innerHTML = `
+          <button type="button" class="w-full flex justify-between items-center px-3 py-2 text-xs text-left font-semibold text-slate-100 focus:outline-none">
+            <span>${f.q}</span>
+            <span class="ml-2 text-amber-300 text-lg leading-none">+</span>
+          </button>
+          <div class="accordion-answer text-[13px] text-slate-100 px-3 pb-2 pt-0">${f.a}</div>
+        `;
+        if (isOpen) item.classList.add('open');
+        const btn = item.querySelector('button');
+        btn.addEventListener('click', () => {
+          const open = item.classList.toggle('open');
+          btn.querySelector('span:last-child').textContent = open ? '−' : '+';
+        });
+        if (isOpen) {
+          btn.querySelector('span:last-child').textContent = '−';
+        }
+        chapterFaqsEl.appendChild(item);
+      });
+
+      chapterPastEl.innerHTML = '';
+      ch.past.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="px-3 py-2 align-top">${p.year}</td>
+          <td class="px-3 py-2 align-top">${p.marks}</td>
+          <td class="px-3 py-2 align-top text-[11px] md:text-xs leading-snug">${p.q}</td>
+        `;
+        chapterPastEl.appendChild(tr);
+      });
+    }
+
+    // Mobile nav handling
+    const sidebarEl = document.getElementById('sidebar');
+    const overlayEl = document.getElementById('overlay');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+
+    function openMobileNav() {
+      sidebarEl.classList.remove('-translate-x-full');
+      overlayEl.classList.remove('hidden');
+    }
+    function closeMobileNav() {
+      sidebarEl.classList.add('-translate-x-full');
+      overlayEl.classList.add('hidden');
+    }
+
+    mobileMenuBtn.addEventListener('click', () => {
+      if (sidebarEl.classList.contains('-translate-x-full')) {
+        openMobileNav();
+      } else {
+        closeMobileNav();
+      }
+    });
+
+    overlayEl.addEventListener('click', closeMobileNav);
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+      renderSidebar();
+      const firstId = Object.keys(chapters)[0];
+      loadChapter(firstId);
+      highlightActive(firstId);
+      document.getElementById('yearSpan').textContent = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>
