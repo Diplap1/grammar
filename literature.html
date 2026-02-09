@@ -951,5 +951,14 @@
       document.getElementById('yearSpan').textContent = new Date().getFullYear();
     });
   </script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('Offline mode ready!', reg))
+        .catch(err => console.log('Offline setup failed', err));
+    });
+  }
+</script>
 </body>
 </html>
