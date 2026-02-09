@@ -25,25 +25,40 @@
   <!-- App Shell -->
   <div class="min-h-screen flex flex-col">
     <!-- Header -->
-    <header class="sticky top-0 z-30 bg-slate-900/95 backdrop-blur border-b border-slate-700">
-      <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
-        <div class="flex items-center gap-2">
-          <div class="w-9 h-9 rounded-full bg-amber-400 flex items-center justify-center text-slate-900 font-black text-lg">DG</div>
-          <div>
-            <h1 class="text-lg sm:text-xl font-bold tracking-tight text-amber-400">Diplap Grammar</h1>
-            <p class="text-[11px] sm:text-xs text-slate-300">NEB Grade 12 English • Quick Exam Revision</p>
-          </div>
-        </div>
-        <button id="mobileMenuBtn" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-slate-700 text-slate-100" aria-label="Toggle navigation">
-          <span class="sr-only">Menu</span>
-          <div class="space-y-1.5">
-            <span class="block w-5 h-0.5 bg-slate-100"></span>
-            <span class="block w-5 h-0.5 bg-slate-100"></span>
-            <span class="block w-5 h-0.5 bg-slate-100"></span>
-          </div>
-        </button>
+<header class="sticky top-0 z-30 bg-slate-900/95 backdrop-blur border-b border-slate-700">
+  <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-16">
+    
+    <!-- Left Side: Logo & Title -->
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full bg-amber-400 flex items-center justify-center text-slate-900 font-black text-lg shadow-lg shadow-amber-400/20">DG</div>
+      <div>
+        <h1 class="text-lg sm:text-xl font-bold tracking-tight text-amber-400">Diplap Grammar</h1>
+        <p class="text-[11px] sm:text-xs text-slate-300">Literature Portal</p>
       </div>
-    </header>
+    </div>
+
+    <!-- Right Side: Home Button & Mobile Menu -->
+    <div class="flex items-center gap-2">
+      <!-- THE HOME BUTTON -->
+      <a href="index.html" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/50 hover:bg-slate-700 hover:border-amber-400/50 text-slate-200 transition-all duration-200 group">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        <span class="text-xs font-semibold uppercase tracking-wider hidden sm:inline">Home</span>
+      </a>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobileMenuBtn" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-slate-700 text-slate-100 hover:bg-slate-800" aria-label="Toggle navigation">
+        <div class="space-y-1.5">
+          <span class="block w-5 h-0.5 bg-slate-100"></span>
+          <span class="block w-5 h-0.5 bg-slate-100"></span>
+          <span class="block w-5 h-0.5 bg-slate-100"></span>
+        </div>
+      </button>
+    </div>
+
+  </div>
+</header>
 
     <div class="flex-1 flex max-w-6xl mx-auto w-full px-0 md:px-4 py-2 md:py-4 gap-0 md:gap-4">
       <!-- Sidebar -->
